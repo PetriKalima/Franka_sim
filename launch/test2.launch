@@ -6,7 +6,7 @@
     <arg name="model" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
 
 
-    <include file="$(find lumi_mujoco)/launch/simulation.launch">
+    <include file="$(find franka_sim)/launch/simulation.launch">
         <arg name="model" default="$(arg model)"/>
         <arg name="mujoco_model" default="$(arg model)"/>
 
