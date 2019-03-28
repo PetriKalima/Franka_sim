@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="urdf_door" default="$(find franka_sim)/model/robots/robot_door.urdf"/>
+    <arg name="model" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
+
+
+    <include file="$(find lumi_mujoco)/launch/simulation.launch">
+        <arg name="model" default="$(arg model)"/>
+        <arg name="mujoco_model" default="$(arg model)"/>
+
+        <arg name="urdf_model" default="$(arg urdf_door)"/>
+
+
+        <arg name="look_at_x" default="5"/>
+        <arg name="look_at_y" default="5"/>
+        <arg name="look_at_z" default="2"/>
+    </include>
+
+
+</launch>
