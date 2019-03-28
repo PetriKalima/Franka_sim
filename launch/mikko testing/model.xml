@@ -2,8 +2,6 @@
     <compiler angle="radian" meshdir="../meshes/" />
     <size njmax="500" nconmax="100" />
     <asset>
-        <mesh file="stl/door_v4_bin.stl" name="door"/>
-
         <mesh name="link0" file="link0.stl" />
         <mesh name="link1" file="link1.stl" />
         <mesh name="link2" file="link2.stl" />
@@ -16,11 +14,6 @@
         <mesh name="finger" file="finger.stl" />
     </asset>
     <worldbody>
-        <body name="door" pos="5 5 5">
-                <inertial diaginertia="1 1 1" mass="1.5" pos="130 27 165"></inertial>
-                <joint type="hinge" axis="0 0 -1" armature="1" damping="0.1" range="0 90" pos="262 49 0" name="door_hinge" limited="true"/>
-                <geom condim="3" type="mesh" mesh="door" rgba="1 0 0 1">
-        </body>
         <geom pos="-0.4 0.15 0" type="mesh" contype="0" conaffinity="0" group="1" mesh="link0" />
         <geom pos="-0.4 0.15 0" type="mesh" mesh="link0" />
         <body name="lumi_link1" pos="-0.4 0.15 0.333">

@@ -7,7 +7,17 @@
   <mujoco>
     <compiler balanceinertia="true" discardvisual="false" meshdir="../meshes/"/>
   </mujoco>
+
   <link name="base_link">
+  </link>
+
+  <joint name="door_hinge" type="fixed">
+  	<parent link="base_link"/>
+    <child link="door"/>
+    <origin rpy="0 0 0" xyz="262 49 0"/>
+  </joint>
+
+  <link name="door">
     <visual>
       <geometry>
         <!--<mesh filename="package://lumi_description/meshes/table.stl" scale="1 1 1"/>-->
@@ -23,6 +33,7 @@
       </geometry>
     </collision>
   </link>
+
   <joint name="lumi_joint_base_link" type="fixed">
     <parent link="base_link"/>
     <child link="lumi_link0"/>
