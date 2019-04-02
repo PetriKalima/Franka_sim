@@ -1,3 +1,4 @@
+
 <mujoco model ="lumi">
     <compiler angle="radian" meshdir="../meshes/" />
     <size njmax="500" nconmax="100" />
