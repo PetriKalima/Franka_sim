@@ -1,0 +1,18 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "",
+        "limitSymbolsToIncludedHeaders": true
+      },
+      "includePath": [
+        "/home/ros/project_ws/devel/include",
+        "/opt/ros/kinetic/include",
+        "/home/ros/project_ws/src/franka_sim/include",
+        "/home/ros/project_ws/src/mujoco_ros_control/include",
+        "/usr/include"
+      ],
+      "name": "Linux"
+    }
+  ]
+}
