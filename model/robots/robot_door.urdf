@@ -27,8 +27,9 @@
       </geometry>
     </collision>
   </link>
-  <joint name="door_hinge" type="fixed">
+  <joint name="door_hinge" type="revolute">
     <origin rpy="0 0 0" xyz="0.005 0.005 0.005"/>
+    <limit effort="10" lower="0" upper="90" velocity="10"/>
     <parent link="door_base"/>
     <child link="door"/>
   </joint>
@@ -44,8 +45,9 @@
       </geometry>
     </collision>
   </link>
-  <joint name="handle_core" type="fixed">
+  <joint name="handle_core" type="revolute">
     <origin rpy="0 0 0" xyz="0.052 -0.06 0.095"/>
+    <limit effort="10" lower="0" upper="90" velocity="10"/>
     <parent link="door"/>
     <child link="handle_core"/>
   </joint>
@@ -421,4 +423,3 @@
     <body name="frame_top" pos="-25 0 335">
     </body>
 </body>    -->
-
