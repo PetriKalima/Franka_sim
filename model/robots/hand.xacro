@@ -27,10 +27,8 @@
         </geometry>
       </visual>
       <collision>
-        <origin xyz="0 0.0125 0.028"/>
         <geometry>
-          <box size="0.021 0.025 0.056"/>
-          <!--<mesh filename="package://franka_description/meshes/collision/finger.stl"/>-->
+          <mesh filename="package://franka_description/meshes/collision/finger.stl"/>
         </geometry>
       </collision>
     </link>
@@ -42,11 +40,9 @@
         </geometry>
       </visual>
       <collision>
-        <!--<origin xyz="0 0 0" rpy="0 0 ${pi}"/>-->
-        <origin xyz="0 -0.0125 0.028"/>
+        <origin xyz="0 0 0" rpy="0 0 ${pi}"/>
         <geometry>
-          <box size="0.021 0.025 0.056"/>
-          <!--<mesh filename="package://franka_description/meshes/collision/finger.stl"/>-->
+          <mesh filename="package://franka_description/meshes/collision/finger.stl"/>
         </geometry>
       </collision>
     </link>

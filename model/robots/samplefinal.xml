@@ -23,10 +23,12 @@
    <!-- <option gravity="0 0 0"/> -->
     <compiler angle="degree" eulerseq="xyz" coordinate="local"></compiler>
     <worldbody>
-        <body pos="0 0 0">
+        <body pos="0 0 -0.05">
+            <geom type="box" size="1 0.5 0.05"/>
+        </body>
+        <body pos="0.4 0.25 0.052" euler="0 0 -90">
         <inertial diaginertia="1 1 1" mass="0.05" pos="0 0 0"></inertial>
             <body name="door" pos="0.005 0.005 0.005">
-                <camera pos="0 0 0"/>
                 <inertial diaginertia="1 1 1" mass="1.5" pos=".130 .027 .165"></inertial>
                 <joint type="hinge" axis="0 0 -1" armature="1" damping="0.1" range="0 90" pos=".262 .049 0" name="door_hinge" limited="true"/>
                 <geom condim="3" type="mesh" mesh="door" rgba="1 0 0 1"></geom>

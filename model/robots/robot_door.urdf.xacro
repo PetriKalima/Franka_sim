@@ -1,21 +1,27 @@
 <?xml version="1.0"?>
 <robot name="lumi" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:include filename="$(find franka_description)/robots/panda_arm.xacro"/>
-    <xacro:include filename="$(find franka_description)/robots/hand.xacro"/>
+    <xacro:include filename="$(find franka_sim)/model/robots/panda_arm.xacro"/>
+    <xacro:include filename="$(find franka_sim)/model/robots/hand.xacro"/>
+
+    <xacro:panda_arm connected_to="base_link" arm_id="lumi" xyz="-0.4 0.15 0.0"/>
+    <xacro:hand ns="lumi" rpy="0 0 ${-pi/4}" connected_to="lumi_link8"/>
 
     <mujoco>
         <compiler meshdir="../meshes/" balanceinertia="true" discardvisual="false"/>
     </mujoco>
 
     <link name="base_link"/>
+
     <link name="door_base"/>
+
     <joint name="door_base_joint" type="fixed">
         <!-- <origin xyz="0.0 0.0 0.052" rpy="0 0 ${pi}"/> -->
-        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <origin xyz="0.4 0.25 0.052" rpy="0 0 ${-pi/2}"/>
         <parent link="base_link"/>
         <child link="door_base"/>
     </joint>
+
     <link name="door">
         <visual>
             <geometry>
@@ -30,7 +36,7 @@
     </link>
     <joint name="door_hinge" type="revolute">
         <origin xyz="0.005 0.005 0.005" rpy="0 0 0"/>
-        <limit lower="0" upper="90" effort="10" velocity="10"/>
+        <limit lower="0" upper="${pi/2}" effort="10" velocity="10"/>
         <parent link="door_base"/>
         <child link="door"/>
     </joint>
@@ -49,7 +55,7 @@
     </link>
     <joint name="handle_core" type="revolute">
         <origin xyz="0.052 -0.06 0.095" rpy="0 0 0"/>
-        <limit lower="0" upper="90" effort="10" velocity="10"/>
+        <limit lower="0" upper="${pi/6}" effort="10" velocity="10"/>
         <parent link="door"/>
         <child link="handle_core"/>
     </joint>
@@ -174,8 +180,6 @@
         <child link="frame_top"/>
     </joint>
 
-    <xacro:panda_arm connected_to="base_link" arm_id="lumi" xyz="0.2 0.2 0.0"/>
-    <xacro:hand ns="lumi" rpy="0 0 ${-pi/4}" connected_to="lumi_link8"/>
 </robot>
 
 <!-- <asset>

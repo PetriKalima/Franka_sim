@@ -21,7 +21,9 @@ Created on: 11/13/18
     <arg name="compensate_bias" default="false"/>
     <arg name="bias_error" default="1.0"/>
 
-    <param name="robot_description" textfile="$(arg urdf_model)"/>
+    <!-- <param name="robot_description" textfile="$(arg urdf_model)"/> -->
+    <param name="robot_description"
+           command="$(find xacro)/xacro '$(find franka_sim)/model/robots/robot_door.urdf.xacro' --inorder"/>
 
     <group ns="lumi_mujoco">
         <rosparam command="load" file="$(find lumi_mujoco)/config/controllers.yaml"/>
