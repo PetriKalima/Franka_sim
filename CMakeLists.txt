@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(franka_sim)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -11,6 +11,8 @@ find_package(catkin REQUIRED )
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
+find_package(catkin REQUIRED COMPONENTS xacro
+        moveit_core moveit_visual_tools moveit_ros_planning moveit_ros_planning_interface)
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -42,7 +44,9 @@ find_package(catkin REQUIRED )
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 find_package(catkin REQUIRED urdf xacro franka_description)
-file(GLOB xacro_files model/*.urdf.xacro)
+#file(GLOB xacro_files model/*.urdf.xacro)
+#xacro_add_files(${xacro_files} TARGET media_files INORDER)
+file(GLOB xacro_files model/robots/*.urdf.xacro)
 xacro_add_files(${xacro_files} TARGET media_files INORDER)
 
 ## Generate messages in the 'msg' folder
@@ -115,9 +119,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-${catkin_INCLUDE_DIRS}
-)
+    ${catkin_INCLUDE_DIRS} 
+    include
+    )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -133,6 +137,7 @@ ${catkin_INCLUDE_DIRS}
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/project16_node.cpp)
+add_executable(pick_and_place src/pick_and_place.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -143,11 +148,13 @@ ${catkin_INCLUDE_DIRS}
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(pick_and_place ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
+target_link_libraries(pick_and_place ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -169,6 +176,11 @@ ${catkin_INCLUDE_DIRS}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
+install(TARGETS pick_and_place
+        ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+        RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        )
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
