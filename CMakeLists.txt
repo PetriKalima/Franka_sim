@@ -44,9 +44,9 @@ find_package(catkin REQUIRED COMPONENTS xacro
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 find_package(catkin REQUIRED urdf xacro franka_description)
-#file(GLOB xacro_files model/*.urdf.xacro)
+file(GLOB xacro_files model/*.urdf.xacro)
 #xacro_add_files(${xacro_files} TARGET media_files INORDER)
-file(GLOB xacro_files model/robots/*.urdf.xacro)
+#file(GLOB xacro_files model/robots/*.urdf.xacro)
 xacro_add_files(${xacro_files} TARGET media_files INORDER)
 
 ## Generate messages in the 'msg' folder
