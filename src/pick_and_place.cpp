@@ -73,7 +73,7 @@ int main(int argc, char **argv) {
     // place pose
 	//Eigen::Affine3d e3 = place * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
 	
-    Eigen::Affine3d e1 = grasp * Eigen::Translation3d(-0.2, -0.1, 0);
+    Eigen::Affine3d e1 = grasp * Eigen::Translation3d(0, 0, 0);
 
     // save the poses
     // vis.publishAxis(arm_to_ee);
