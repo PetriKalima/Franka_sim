@@ -4,16 +4,27 @@ project(franka_sim)
 ## Compile as C++11, supported in ROS Kinetic and newer
 add_compile_options(-std=c++11)
 
+
+#set(BINNAME testthing)
+#set(SOURCES src/test.cpp)
+set(BINNAME pick_and_place)
+set(SOURCES src/pick_and_place.cpp)
+
+
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED )
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-find_package(catkin REQUIRED COMPONENTS xacro
-        moveit_core moveit_visual_tools moveit_ros_planning moveit_ros_planning_interface)
-
+find_package(catkin REQUIRED COMPONENTS 
+        xacro
+        moveit_core 
+        moveit_visual_tools 
+        moveit_ros_planning 
+        moveit_ros_planning_interface
+)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -43,11 +54,12 @@ find_package(catkin REQUIRED COMPONENTS xacro
 ##     and list every .msg/.srv/.action file to be processed
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
-find_package(catkin REQUIRED urdf xacro franka_description)
-file(GLOB xacro_files model/*.urdf.xacro)
+#find_package(catkin REQUIRED urdf xacro franka_description)
+#file(GLOB xacro_files model/*.urdf.xacro)
 #xacro_add_files(${xacro_files} TARGET media_files INORDER)
+
 #file(GLOB xacro_files model/robots/*.urdf.xacro)
-xacro_add_files(${xacro_files} TARGET media_files INORDER)
+#xacro_add_files(${xacro_files} TARGET media_files INORDER)
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
@@ -106,6 +118,7 @@ xacro_add_files(${xacro_files} TARGET media_files INORDER)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
+        CATKIN_DEPENDS
 #  INCLUDE_DIRS include
 #  LIBRARIES project16
 #  CATKIN_DEPENDS other_catkin_pkg
@@ -119,9 +132,9 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-    ${catkin_INCLUDE_DIRS} 
     include
-    )
+    ${catkin_INCLUDE_DIRS} 
+)
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
@@ -137,7 +150,9 @@ include_directories(
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 # add_executable(${PROJECT_NAME}_node src/project16_node.cpp)
-add_executable(pick_and_place src/pick_and_place.cpp)
+add_executable(
+        ${BINNAME} ${SOURCES}
+)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -148,13 +163,13 @@ add_executable(pick_and_place src/pick_and_place.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-add_dependencies(pick_and_place ${catkin_EXPORTED_TARGETS})
+add_dependencies(${BINNAME} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-target_link_libraries(pick_and_place ${catkin_LIBRARIES})
+target_link_libraries(${BINNAME} ${catkin_LIBRARIES})
 
 #############
 ## Install ##
@@ -176,7 +191,7 @@ target_link_libraries(pick_and_place ${catkin_LIBRARIES})
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
-install(TARGETS pick_and_place
+install(TARGETS ${BINNAME}
         ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
         RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -211,3 +226,7 @@ install(DIRECTORY model DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+
+
+

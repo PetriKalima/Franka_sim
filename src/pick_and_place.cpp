@@ -1,4 +1,8 @@
-
+/**
+ * Copyright (c) Aalto  - All Rights Reserved
+ * Created on: 12/17/18
+ *     Author: Vladimir Petrik <vladimir.petrik@aalto.fi>
+ */
 
 #include <functions.h>
 #include <std_srvs/Empty.h>
