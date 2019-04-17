@@ -49,34 +49,37 @@ int main(int argc, char **argv) {
     // vis.publishAxis(e2);
     // vis.trigger();
 
- 
 
     // these were required in ex1 for tf stuff
 	tf2_ros::Buffer tfBuffer;
 	tf2_ros::TransformListener tfListener(tfBuffer);
+
     // geometry message which will be populated with the transformation
 	geometry_msgs::TransformStamped base_to_pick_pose;
-	geometry_msgs::TransformStamped base_to_place_pose;
+	//geometry_msgs::TransformStamped base_to_place_pose;
     // read the tf into variable
 	base_to_pick_pose = tfBuffer.lookupTransform("base_link", "pick", ros::Time(0), ros::Duration(20.0));
-	base_to_place_pose = tfBuffer.lookupTransform("base_link", "place", ros::Time(0), ros::Duration(20.0));
+	//base_to_place_pose = tfBuffer.lookupTransform("base_link", "place", ros::Time(0), ros::Duration(20.0));
     // convert the geometric message into eigen
-	Eigen::Affine3d grasp, place;
+	//Eigen::Affine3d grasp, place;
+    Eigen::Affine3d grasp;
 	tf::transformMsgToEigen(base_to_pick_pose.transform, grasp);
-    tf::transformMsgToEigen(base_to_place_pose.transform, place);
+    //tf::transformMsgToEigen(base_to_place_pose.transform, place);
 
     // pregrasp pose
-	Eigen::Affine3d e1 = grasp * Eigen::Translation3d(0, 0, 0.1) * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
+	//Eigen::Affine3d e1 = grasp * Eigen::Translation3d(0, 0, 0.1) * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
     // grasp pose
-	Eigen::Affine3d e2 = grasp * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
+	//Eigen::Affine3d e2 = grasp * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
     // place pose
-	Eigen::Affine3d e3 = place * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
+	//Eigen::Affine3d e3 = place * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
 	
+    Eigen::Affine3d e1 = grasp * Eigen::Translation3d(-0.2, -0.1, 0);
+
     // save the poses
     // vis.publishAxis(arm_to_ee);
     vis.publishAxis(e1);
-    vis.publishAxis(e2);
-    vis.publishAxis(e3);
+    //vis.publishAxis(e2);
+    //vis.publishAxis(e3);
     // push the poses to rviz
 	vis.trigger();
 
