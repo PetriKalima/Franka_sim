@@ -83,7 +83,21 @@ int main(int argc, char **argv) {
     // execute the trajectories
     std::vector<moveit_msgs::RobotTrajectory> trajectories;
 
-
+    // // plan to pregrasp
+    g_arm.setStartState(state);
+    if (!state.setFromIK(jmg, e1, ee_link)) {
+        ROS_ERROR_STREAM("Cannot set arm position with IK");
+        return -1;
+    }
+	moveit_msgs::RobotTrajectory t1; //create trajectory
+	t1 = planToState(g_arm, state); //calculate
+    trajectories.push_back(t1); //something
+    if (trajectories.back().joint_trajectory.points.empty()) {
+        return -1;
+    }
+    state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
+                               trajectories.back().joint_trajectory.points.back().positions);
+	g_arm.execute(trajectoryToPlan(t1)); //execute trajectory
 
 //FOR REFERENCE
 //Mikko's solution for robotic manipulation exercise

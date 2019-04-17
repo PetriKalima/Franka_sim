@@ -18,5 +18,7 @@
         <arg name="look_at_z" default="0"/>
     </include>
 
+    <include file="$(find franka_sim)/launch/publish_frames.launch"/>
+
 
 </launch>
