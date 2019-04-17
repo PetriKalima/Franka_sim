@@ -55,15 +55,15 @@ int main(int argc, char **argv) {
 	tf2_ros::TransformListener tfListener(tfBuffer);
 
     // geometry message which will be populated with the transformation
-	geometry_msgs::TransformStamped base_to_pick_pose;
+	geometry_msgs::TransformStamped base_to_handle_pose;
 	//geometry_msgs::TransformStamped base_to_place_pose;
     // read the tf into variable
-	base_to_pick_pose = tfBuffer.lookupTransform("base_link", "pick", ros::Time(0), ros::Duration(20.0));
+	base_to_handle_pose = tfBuffer.lookupTransform("base_link", "handle", ros::Time(0), ros::Duration(20.0));
 	//base_to_place_pose = tfBuffer.lookupTransform("base_link", "place", ros::Time(0), ros::Duration(20.0));
     // convert the geometric message into eigen
 	//Eigen::Affine3d grasp, place;
     Eigen::Affine3d grasp;
-	tf::transformMsgToEigen(base_to_pick_pose.transform, grasp);
+	tf::transformMsgToEigen(base_to_handle_pose.transform, grasp);
     //tf::transformMsgToEigen(base_to_place_pose.transform, place);
 
     // pregrasp pose
@@ -73,7 +73,14 @@ int main(int argc, char **argv) {
     // place pose
 	//Eigen::Affine3d e3 = place * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
 	
-    Eigen::Affine3d e1 = grasp * Eigen::Translation3d(0, 0, 0);
+    //initial
+    Eigen::Affine3d e1 = grasp * Eigen::Translation3d(-0.2, -0.4, -0.2);
+
+    //pregrasp
+    Eigen::Affine3d e2 = grasp * Eigen::Translation3d(0, 0, -0.1);
+
+    //grasp
+    Eigen::Affine3d e3 = grasp;
 
     // save the poses
     // vis.publishAxis(arm_to_ee);
@@ -101,6 +108,22 @@ int main(int argc, char **argv) {
     state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
                                trajectories.back().joint_trajectory.points.back().positions);
 	g_arm.execute(trajectoryToPlan(t1)); //execute trajectory
+
+
+    // cartesian to grasp
+//    g_arm.setStartState(State);
+	g_arm.setStartStateToCurrentState();
+    geometry_msgs::Pose pose;
+    tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose);
+    moveit_msgs::RobotTrajectory rtraj;
+    const auto d = g_arm.computeCartesianPath({pose}, 0.01, 1.4, rtraj);
+    if (d < 0.99) {
+        ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
+        return -1;
+    }
+    trajectories.push_back(rtraj);
+	g_arm.execute(trajectoryToPlan(rtraj));
+
 
 //FOR REFERENCE
 //Mikko's solution for robotic manipulation exercise

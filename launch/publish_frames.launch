@@ -10,9 +10,9 @@ Created on: 12/14/18
     <!--The transformation format: x y z qx qy qz qw source_frame target_frame publishing_period-->
     <!-- (qx, qy, qz, qw)^T is a rotation in a quaternion representation -->
 
-    <!--The initial target location (handle) is specified by "pick" frame -->
+    <!--The initial target location is specified by "handle" frame -->
     <node pkg="tf" name="pick_publisher" type="static_transform_publisher"
-          args="0.35 0.12 0.15 -0.5 0.5 -0.5 0.5 base_link pick 100"/>
+          args="0.35 0.12 0.15 -0.5 0.5 -0.5 0.5 base_link handle 100"/>
       <!--<origin xyz="0.4 0.25 0.052" rpy="0 0 ${-pi/2}"/>-->
 
     <!--The final target location is specified by "place" frame -->
