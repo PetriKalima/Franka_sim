@@ -83,92 +83,94 @@ int main(int argc, char **argv) {
 // execute the trajectories
     std::vector<moveit_msgs::RobotTrajectory> trajectories;
 
+//FOR REFERENCE
+//Mikko's solution for robotic manipulation exercise
 
-// plan to pregrasp
-    g_arm.setStartState(state);
-    if (!state.setFromIK(jmg, e1, ee_link)) {
-        ROS_ERROR_STREAM("Cannot set arm position with IK");
-        return -1;
-    }
-	moveit_msgs::RobotTrajectory t1; //create trajectory
-	t1 = planToState(g_arm, state); //calculate
-    trajectories.push_back(t1); //something
-    if (trajectories.back().joint_trajectory.points.empty()) {
-        return -1;
-    }
-    state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
-                               trajectories.back().joint_trajectory.points.back().positions);
-	g_arm.execute(trajectoryToPlan(t1)); //execute trajectory
-
-
-// open gripper
-    g_hand.setStartStateToCurrentState();
-    const auto traj1 = getGripperTrajectory(g_hand, true);
-    if (!traj1.joint_trajectory.points.empty()) {
-        g_hand.execute(trajectoryToPlan(traj1));
-    }
+// // plan to pregrasp
+//     g_arm.setStartState(state);
+//     if (!state.setFromIK(jmg, e1, ee_link)) {
+//         ROS_ERROR_STREAM("Cannot set arm position with IK");
+//         return -1;
+//     }
+// 	moveit_msgs::RobotTrajectory t1; //create trajectory
+// 	t1 = planToState(g_arm, state); //calculate
+//     trajectories.push_back(t1); //something
+//     if (trajectories.back().joint_trajectory.points.empty()) {
+//         return -1;
+//     }
+//     state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
+//                                trajectories.back().joint_trajectory.points.back().positions);
+// 	g_arm.execute(trajectoryToPlan(t1)); //execute trajectory
 
 
-// cartesian to grasp
-//    g_arm.setStartState(State);
-	g_arm.setStartStateToCurrentState();
-    geometry_msgs::Pose pose;
-    tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose);
-    moveit_msgs::RobotTrajectory rtraj;
-    const auto d = g_arm.computeCartesianPath({pose}, 0.01, 1.4, rtraj);
-    if (d < 0.99) {
-        ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
-        return -1;
-    }
-    trajectories.push_back(rtraj);
-	g_arm.execute(trajectoryToPlan(rtraj));
+// // open gripper
+//     g_hand.setStartStateToCurrentState();
+//     const auto traj1 = getGripperTrajectory(g_hand, true);
+//     if (!traj1.joint_trajectory.points.empty()) {
+//         g_hand.execute(trajectoryToPlan(traj1));
+//     }
 
 
-// close gripper
-    g_hand.setStartStateToCurrentState();
-    const auto traj2 = getGripperTrajectory(g_hand, false);
-    if (!traj2.joint_trajectory.points.empty()) {
-        g_hand.execute(trajectoryToPlan(traj2));
-    }
-
-// cartesian to pregrasp
-//    g_arm.setStartState(state);
-	g_arm.setStartStateToCurrentState();
-    geometry_msgs::Pose pose2;
-    tf::poseEigenToMsg(e1 * arm_to_ee.inverse(), pose2);
-    moveit_msgs::RobotTrajectory rtraj2;
-    const auto d2 = g_arm.computeCartesianPath({pose2}, 0.01, 1.4, rtraj2);
-    if (d2 < 0.99) {
-        ROS_ERROR_STREAM("Cannot interpolate to the grasping position2");
-        return -1;
-    }
-    trajectories.push_back(rtraj2);
-	g_arm.execute(trajectoryToPlan(rtraj2));
-
-// plan to place
-//    g_arm.setStartState(state);
-  	g_arm.setStartStateToCurrentState();  
-    if (!state.setFromIK(jmg, e3, ee_link)) {
-        ROS_ERROR_STREAM("Cannot set arm position with IK2");
-        return -1;
-    }
-        moveit_msgs::RobotTrajectory t2; //create trajectory
-        t2 = planToState(g_arm, state); //calculate
-    trajectories.push_back(t2); //something
-    if (trajectories.back().joint_trajectory.points.empty()) {
-        return -1;
-    }
-    state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
-                               trajectories.back().joint_trajectory.points.back().positions);
-        g_arm.execute(trajectoryToPlan(t2)); //execute trajectory
+// // cartesian to grasp
+// //    g_arm.setStartState(State);
+// 	g_arm.setStartStateToCurrentState();
+//     geometry_msgs::Pose pose;
+//     tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose);
+//     moveit_msgs::RobotTrajectory rtraj;
+//     const auto d = g_arm.computeCartesianPath({pose}, 0.01, 1.4, rtraj);
+//     if (d < 0.99) {
+//         ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
+//         return -1;
+//     }
+//     trajectories.push_back(rtraj);
+// 	g_arm.execute(trajectoryToPlan(rtraj));
 
 
-// open gripper
-    g_hand.setStartStateToCurrentState();
-    const auto traj3 = getGripperTrajectory(g_hand, true);
-    if (!traj3.joint_trajectory.points.empty()) {
-        g_hand.execute(trajectoryToPlan(traj3));
-    }
+// // close gripper
+//     g_hand.setStartStateToCurrentState();
+//     const auto traj2 = getGripperTrajectory(g_hand, false);
+//     if (!traj2.joint_trajectory.points.empty()) {
+//         g_hand.execute(trajectoryToPlan(traj2));
+//     }
+
+// // cartesian to pregrasp
+// //    g_arm.setStartState(state);
+// 	g_arm.setStartStateToCurrentState();
+//     geometry_msgs::Pose pose2;
+//     tf::poseEigenToMsg(e1 * arm_to_ee.inverse(), pose2);
+//     moveit_msgs::RobotTrajectory rtraj2;
+//     const auto d2 = g_arm.computeCartesianPath({pose2}, 0.01, 1.4, rtraj2);
+//     if (d2 < 0.99) {
+//         ROS_ERROR_STREAM("Cannot interpolate to the grasping position2");
+//         return -1;
+//     }
+//     trajectories.push_back(rtraj2);
+// 	g_arm.execute(trajectoryToPlan(rtraj2));
+
+// // plan to place
+// //    g_arm.setStartState(state);
+//   	g_arm.setStartStateToCurrentState();  
+//     if (!state.setFromIK(jmg, e3, ee_link)) {
+//         ROS_ERROR_STREAM("Cannot set arm position with IK2");
+//         return -1;
+//     }
+//         moveit_msgs::RobotTrajectory t2; //create trajectory
+//         t2 = planToState(g_arm, state); //calculate
+//     trajectories.push_back(t2); //something
+//     if (trajectories.back().joint_trajectory.points.empty()) {
+//         return -1;
+//     }
+//     state.setVariablePositions(trajectories.back().joint_trajectory.joint_names,
+//                                trajectories.back().joint_trajectory.points.back().positions);
+//         g_arm.execute(trajectoryToPlan(t2)); //execute trajectory
+
+
+// // open gripper
+//     g_hand.setStartStateToCurrentState();
+//     const auto traj3 = getGripperTrajectory(g_hand, true);
+//     if (!traj3.joint_trajectory.points.empty()) {
+//         g_hand.execute(trajectoryToPlan(traj3));
+//     }
 
 
     //planning to pose
@@ -202,11 +204,11 @@ int main(int argc, char **argv) {
     }
     vis.trigger();
 
-    if (askContinue()) {
+//    if (askContinue()) {
 // ...
-    } else {
+//    } else {
 // ....
-    }
+//    }
 
     //open gripper
 //    g_hand.setStartStateToCurrentState();
