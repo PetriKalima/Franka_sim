@@ -13,9 +13,9 @@
         <arg name="urdf_model" default="$(arg urdf_door)"/>
 
 
-        <arg name="look_at_x" default="0"/>
-        <arg name="look_at_y" default="0"/>
-        <arg name="look_at_z" default="0"/>
+        <arg name="look_at_x" default="0.1"/>
+        <arg name="look_at_y" default="-0.45"/>
+        <arg name="look_at_z" default="1.1"/>
     </include>
 
 
