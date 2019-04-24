@@ -50,18 +50,18 @@ int main(int argc, char **argv) {
     Eigen::Affine3d e1 = grasp * Eigen::Translation3d(-0.2, -0.4, -0.2);
 
     //pregrasp
-    Eigen::Affine3d e2 = grasp * Eigen::Translation3d(0, 0, -0.1);
+    //Eigen::Affine3d e2 = grasp * Eigen::Translation3d(0, 0, -0.1);
 
     //grasp
-    Eigen::Affine3d e3 = grasp;
+    //Eigen::Affine3d e3 = grasp;
 
     //TODO add further points & publish them
 
     // save the poses
     vis.publishAxis(arm_to_ee);
     vis.publishAxis(e1);
-    vis.publishAxis(e2);
-    vis.publishAxis(e3);
+    //vis.publishAxis(e2);
+    //vis.publishAxis(e3);
     // push the poses to rviz
 	vis.trigger();
 
@@ -85,38 +85,38 @@ int main(int argc, char **argv) {
                                trajectories.back().joint_trajectory.points.back().positions);
 	g_arm.execute(trajectoryToPlan(t1)); //execute trajectory
 
-// cartesian to pregrasp 2
-	g_arm.setStartStateToCurrentState();
-    geometry_msgs::Pose pose;
-    tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose);
-    moveit_msgs::RobotTrajectory rtraj;
-    const auto d = g_arm.computeCartesianPath({pose}, 0.01, 1.4, rtraj);
-    if (d < 0.99) {
-        ROS_ERROR_STREAM("Cannot interpolate to the pregrasping position");
-        return -1;
-    }
-    trajectories.push_back(rtraj);
-	g_arm.execute(trajectoryToPlan(rtraj));
+// // cartesian to pregrasp e2
+// 	g_arm.setStartStateToCurrentState();
+//     geometry_msgs::Pose pose;
+//     tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose);
+//     moveit_msgs::RobotTrajectory rtraj;
+//     const auto d = g_arm.computeCartesianPath({pose}, 0.01, 1.4, rtraj);
+//     if (d < 0.99) {
+//         ROS_ERROR_STREAM("Cannot interpolate to the pregrasping position");
+//         return -1;
+//     }
+//     trajectories.push_back(rtraj);
+// 	g_arm.execute(trajectoryToPlan(rtraj));
 
-// open gripper
-    g_hand.setStartStateToCurrentState();
-    const auto traj1 = getGripperTrajectory(g_hand, true);
-    if (!traj1.joint_trajectory.points.empty()) {
-        g_hand.execute(trajectoryToPlan(traj1));
-    }
+// // open gripper
+//     g_hand.setStartStateToCurrentState();
+//     const auto traj1 = getGripperTrajectory(g_hand, true);
+//     if (!traj1.joint_trajectory.points.empty()) {
+//         g_hand.execute(trajectoryToPlan(traj1));
+//     }
 
-// cartesian to grasp e3
-	g_arm.setStartStateToCurrentState();
-    geometry_msgs::Pose pose2;
-    tf::poseEigenToMsg(e3 * arm_to_ee.inverse(), pose2);
-    moveit_msgs::RobotTrajectory rtraj2;
-    const auto d2 = g_arm.computeCartesianPath({pose2}, 0.01, 1.4, rtraj2);
-    if (d2 < 0.99) {
-        ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
-        return -1;
-    }
-    trajectories.push_back(rtraj2);
-	g_arm.execute(trajectoryToPlan(rtraj2));
+// // cartesian to grasp e3
+// 	g_arm.setStartStateToCurrentState();
+//     geometry_msgs::Pose pose2;
+//     tf::poseEigenToMsg(e3 * arm_to_ee.inverse(), pose2);
+//     moveit_msgs::RobotTrajectory rtraj2;
+//     const auto d2 = g_arm.computeCartesianPath({pose2}, 0.01, 1.4, rtraj2);
+//     if (d2 < 0.99) {
+//         ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
+//         return -1;
+//     }
+//     trajectories.push_back(rtraj2);
+// 	g_arm.execute(trajectoryToPlan(rtraj2));
 
 //TODO:
 //close gripper
