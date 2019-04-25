@@ -108,13 +108,13 @@ def create_argparse():
     modify_parser.add_argument(
         '--mass',
         help='Set the mass of the door.',
-        type=int
+        type=float
     )
 
     modify_parser.add_argument(
         '--stiffness',
         help='Set the stiffness of the handle.',
-        type=int
+        type=float
     )
 
     modify_parser.add_argument(
