@@ -21,7 +21,7 @@
         <mesh file="handle_v4_core_bin.stl" name="handle_core" scale="0.001 0.001 0.001"/>
     </asset>
    <!-- <option gravity="0 0 0"/> -->
-    <compiler angle="degree" eulerseq="xyz" coordinate="local"></compiler>
+    <compiler eulerseq="xyz" coordinate="local"></compiler>
     <worldbody>
         <body pos="0.48 0.17 0.052" euler="0 0 -90">
         <inertial diaginertia="1 1 1" mass="0.05" pos="0 0 0"></inertial>
