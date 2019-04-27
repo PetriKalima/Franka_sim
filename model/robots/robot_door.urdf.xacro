@@ -25,12 +25,12 @@
     <link name="door">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/door_v4_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/door_v5_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/door_v4_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/door_v5_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -44,12 +44,12 @@
     <link name="handle_core">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_core_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/handle_v5_core_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_core_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/handle_v5_core_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -64,12 +64,12 @@
     <link name="handle_beam">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_beam_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_beam_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -81,12 +81,12 @@
     <link name="handle_latch">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_latch_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/handle_v5_latch_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/handle_v4_latch_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/handle_v5_latch_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -98,12 +98,12 @@
     <link name="frame_left">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_leftpillar_back_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_back_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_leftpillar_back_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_back_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -115,12 +115,12 @@
     <link name="frame_left_front">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_leftpillar_front_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_front_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_leftpillar_front_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_front_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -132,12 +132,12 @@
     <link name="frame_right">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_rightpillar_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/frame_v5_rightpillar_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_rightpillar_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/frame_v5_rightpillar_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -149,12 +149,12 @@
     <link name="frame_bottom">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -166,12 +166,12 @@
     <link name="frame_top">
         <visual>
             <geometry>
-              <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl"/>
+              <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
             </geometry>
         </visual>
        <collision>
            <geometry>
-               <mesh scale="0.001 0.001 0.001" filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl"/>
+               <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
            </geometry>
        </collision>
     </link>
@@ -184,14 +184,14 @@
 </robot>
 
 <!-- <asset>
-        <mesh file="stl/frame_v4_leftpillar_back_bin.stl" name="frame_left"/>
-        <mesh file="stl/frame_v4_leftpillar_front_bin.stl" name="frame_left_front"/>
-        <mesh file="stl/frame_v4_rightpillar_bin.stl" name="frame_right"/>
-        <mesh file="stl/frame_v4_top_bottom_bin.stl" name="frame_top_bottom"/>
-        <mesh file="stl/door_v4_bin.stl" name="door"/>
-        <mesh file="stl/handle_v4_beam_bin.stl" name="handle_beam"/>
-        <mesh file="stl/handle_v4_latch_bin.stl" name="handle_latch"/>
-        <mesh file="stl/handle_v4_core_bin.stl" name="handle_core"/>
+        <mesh file="stl/frame_v5_leftpillar_back_bin.stl" name="frame_left"/>
+        <mesh file="stl/frame_v5_leftpillar_front_bin.stl" name="frame_left_front"/>
+        <mesh file="stl/frame_v5_rightpillar_bin.stl" name="frame_right"/>
+        <mesh file="stl/frame_v5_top_bottom_bin.stl" name="frame_top_bottom"/>
+        <mesh file="stl/door_v5_bin.stl" name="door"/>
+        <mesh file="stl/handle_v5_beam_bin.stl" name="handle_beam"/>
+        <mesh file="stl/handle_v5_latch_bin.stl" name="handle_latch"/>
+        <mesh file="stl/handle_v5_core_bin.stl" name="handle_core"/>
 </asset> -->
 
 <!-- <body pos="0 0 0">
