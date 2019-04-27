@@ -3,14 +3,6 @@
 <mujoco model ="lumi">
     <include file="model.xml"/>
     <asset>
-        <!--<mesh file="frame_v4_leftpillar_back_bin.stl" name="frame_left"/>
-        <mesh file="frame_v4_leftpillar_front_bin.stl" name="frame_left_front"/>
-        <mesh file="frame_v4_rightpillar_bin.stl" name="frame_right"/>
-        <mesh file="frame_v4_top_bottom_bin.stl" name="frame_top_bottom"/>
-        <mesh file="door_v4_bin.stl" name="door"/>
-        <mesh file="handle_v4_beam_bin.stl" name="handle_beam"/>
-        <mesh file="handle_v4_latch_bin.stl" name="handle_latch"/>
-        <mesh file="handle_v4_core_bin.stl" name="handle_core" />-->
         <mesh file="frame_v4_leftpillar_back_bin.stl" name="frame_left" scale="0.001 0.001 0.001"/>
         <mesh file="frame_v4_leftpillar_front_bin.stl" name="frame_left_front" scale="0.001 0.001 0.001"/>
         <mesh file="frame_v4_rightpillar_bin.stl" name="frame_right" scale="0.001 0.001 0.001"/>
@@ -21,49 +13,52 @@
         <mesh file="handle_v4_core_bin.stl" name="handle_core" scale="0.001 0.001 0.001"/>
     </asset>
    <!-- <option gravity="0 0 0"/> -->
-    <compiler eulerseq="xyz" coordinate="local"></compiler>
+    <compiler eulerseq="xyz" coordinate="local"/>
     <worldbody>
-        <body pos="0.40 0.25 0.052" euler="0 0 -90">
-        <inertial diaginertia="1 1 1" mass="0.05" pos="0 0 0"></inertial>
+        <!-- <body pos="0.40 0.25 0.052" euler="0 0 -90"> -->
+        <body pos="0.40 0.25 0.052" euler="0 0 -1.571">
+        <inertial diaginertia="1 1 1" mass="0.05" pos="0 0 0"/>
             <body name="door" pos="0.005 0.005 0.005">
                 <!--camera pos="0 0 0" mode="targetbody" target="handle_core"/-->
                 <camera pos="0 0 0"/>
-                <inertial diaginertia="1 1 1" mass="1.5" pos=".130 .027 .165"></inertial>
-                <joint type="hinge" axis="0 0 -1" armature="0.001" damping="0.001" range="0 90" pos=".262 .049 0" name="door_hinge" limited="true"/>
-                <geom condim="3" type="mesh" mesh="door" rgba="1 0 0 1"></geom>
+                <inertial diaginertia="1 1 1" mass="1.5" pos=".130 .027 .165"/>
+                <!-- <joint type="hinge" axis="0 0 -1" armature="0.001" damping="0.001" range="0 90" pos=".262 .049 0" name="door_hinge" limited="true"/> -->
+                <joint type="hinge" axis="0 0 -1" armature="0.001" damping="0.001" range="0 1.571" pos=".262 .049 0" name="door_hinge" limited="true"/>
+                <geom condim="3" type="mesh" mesh="door" rgba="1 0 0 1"/>
                 <body name="handle_core" pos=".052 -.060 .095">
-                    <inertial diaginertia="1 1 1" mass="0.2" pos="0 0 0" ></inertial>
-                    <joint type="hinge" damping="0.001" armature="0.001" stiffness="0.001" axis="0 1 0" range="0 30" pos="0 0 0" name="handle_core" limited="true"/>
-                    <geom condim="1" type="mesh" mesh="handle_core" rgba="0 1 0 1"></geom>
+                    <inertial diaginertia="1 1 1" mass="0.2" pos="0 0 0"/>
+                    <!-- <joint type="hinge" damping="0.001" armature="0.001" stiffness="0.001" axis="0 1 0" range="0 30" pos="0 0 0" name="handle_core" limited="true"/> -->
+                    <joint type="hinge" damping="0.001" armature="0.001" stiffness="0.001" axis="0 1 0" range="0 0.5236" pos="0 0 0" name="handle_core" limited="true"/>
+                    <geom condim="1" type="mesh" mesh="handle_core" rgba="0 1 0 1"/>
                     <body name="handle_beam" pos=".015 0 -.0165">
-                        <inertial diaginertia="1 1 1" mass="0.1" pos="0 .0165 0" ></inertial>
-                        <geom condim="1" type="mesh" mesh="handle_beam" rgba="0 1 0 1"></geom>
+                        <inertial diaginertia="1 1 1" mass="0.1" pos="0 .0165 0"/>
+                        <geom condim="1" type="mesh" mesh="handle_beam" rgba="0 1 0 1"/>
                     </body>
                     <body name="handle_latch" pos="-.015 .040 -.010">
-                        <inertial diaginertia="1 1 1" mass="0.0000001" pos="0 0 .010" ></inertial>
-                        <geom condim="1" type="mesh" mesh="handle_latch" rgba="0 1 0 1"></geom>
+                        <inertial diaginertia="1 1 1" mass="0.0000001" pos="0 0 .010"/>
+                        <geom condim="1" type="mesh" mesh="handle_latch" rgba="0 1 0 1"/>
                     </body>
                 </body>    
             </body>          
             <body name="frame_left" pos="-.025 .010 0">
-                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052" ></inertial>
-                <geom condim="3" type="mesh" mesh="frame_left" rgba="0 0 1 1"></geom>
+                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
+                <geom condim="3" type="mesh" mesh="frame_left" rgba="0 0 1 1"/>
             </body>
             <body name="frame_left_front" pos="-.025 0 0">
-                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052" ></inertial>
-                <geom condim="3" type="mesh" mesh="frame_left_front" rgba="0 0 1 1"></geom>
+                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
+                <geom condim="3" type="mesh" mesh="frame_left_front" rgba="0 0 1 1"/>
             </body>
             <body name="frame_right" pos=".267 0 0">
-                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052" ></inertial>
-                <geom condim="3" type="mesh" mesh="frame_right" rgba="0 0 1 1"></geom>
+                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
+                <geom condim="3" type="mesh" mesh="frame_right" rgba="0 0 1 1"/>
             </body>
             <body name="frame_bottom" pos="-.025 0 -.052">
-                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052" ></inertial>
-                <geom condim="3" type="mesh" mesh="frame_top_bottom" rgba="0 0 1 1"></geom>
+                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
+                <geom condim="3" type="mesh" mesh="frame_top_bottom" rgba="0 0 1 1"/>
             </body>
             <body name="frame_top" pos="-.025 0 .335">
-                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052" ></inertial>
-                <geom condim="3" type="mesh" mesh="frame_top_bottom" rgba="0 0 1 1"></geom>
+                <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
+                <geom condim="3" type="mesh" mesh="frame_top_bottom" rgba="0 0 1 1"/>
             </body>
         </body>    
     </worldbody>
