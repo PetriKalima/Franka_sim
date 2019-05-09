@@ -30,8 +30,7 @@ def main():
               "handle_core": 0.6 
               }
     newstate = newSim.setState(values)
-    print(newstate)          
+    print(newSim.getState())
     newSim.view()
-
 
 main()   
