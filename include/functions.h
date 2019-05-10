@@ -34,7 +34,7 @@ moveit_msgs::RobotTrajectory getGripperTrajectory(moveit::planning_interface::Mo
         ROS_ERROR_STREAM("Cannot get start state");
         return moveit_msgs::RobotTrajectory();
     }
-    state->setVariablePosition("lumi_finger_joint1", open ? 0.04 : 0.0);
+    state->setVariablePosition("lumi_finger_joint1", open ? 0.04 : 0.0);//adjust to change finger closure limits default=(0.04:0)
     if (!g_hand.setJointValueTarget(*state)) {
         ROS_ERROR_STREAM("Cannot set joint value target");
         return moveit_msgs::RobotTrajectory();

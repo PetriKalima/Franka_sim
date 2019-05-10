@@ -58,6 +58,10 @@ find_package(catkin REQUIRED COMPONENTS
 #file(GLOB xacro_files model/*.urdf.xacro)
 #xacro_add_files(${xacro_files} TARGET media_files INORDER)
 
+###WARNING Using xacro builder leads to error:
+###ERROR: Eigen/Geometry not found
+
+#find_package(catkin REQUIRED urdf xacro franka_description)
 #file(GLOB xacro_files model/robots/*.urdf.xacro)
 #xacro_add_files(${xacro_files} TARGET media_files INORDER)
 

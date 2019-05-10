@@ -9,6 +9,9 @@
 
     <mujoco>
         <compiler meshdir="../meshes/" balanceinertia="true" discardvisual="false"/>
+        <!--<option cone="elliptic" impratio="10">
+            <geom friction="1.5 0.005 0.0001" solimp="0.99 0.99 0.01" solref="0.01 1"/>
+        </option>-->
     </mujoco>
 
     <link name="base_link"/>
@@ -39,6 +42,7 @@
         <parent link="door_link"/>
         <child link="door"/>
     </joint>
+    
     <link name="door_link"/>
     <joint name="door_hinge" type="revolute">
         <!-- <origin xyz="0.005 0.005 0.005" rpy="0 0 0"/> -->
@@ -69,23 +73,26 @@
         <child link="handle_core"/>
     </joint>
     
+    <!-- handle_beam visuals and collisions removed due to problems with moveit collisions between robot left/right fingers and handle_beam -->
+    <!-- TODO: replace collision with some "dummy" stl file which would not collide with robot -->
     <link name="handle_beam">
-        <visual>
+        <!--<visual>
             <geometry>
               <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
             </geometry>
         </visual>
-       <collision>
+        <collision>
            <geometry>
                <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
            </geometry>
-       </collision>
+        </collision>-->
     </link>
     <joint name="handle_beam_joint" type="fixed">
         <origin xyz="0.015 0.0 -0.0165" rpy="0 0 0"/>
         <parent link="handle_core"/>
         <child link="handle_beam"/>
     </joint>
+
     <link name="handle_latch">
         <visual>
             <geometry>
@@ -103,6 +110,7 @@
         <parent link="handle_core"/>
         <child link="handle_latch"/>
     </joint>
+
     <link name="frame_left">
         <visual>
             <geometry>
@@ -120,6 +128,7 @@
         <parent link="door_base"/>
         <child link="frame_left"/>
     </joint>
+
     <link name="frame_left_front">
         <visual>
             <geometry>
@@ -137,6 +146,7 @@
         <parent link="door_base"/>
         <child link="frame_left_front"/>
     </joint>
+
     <link name="frame_right">
         <visual>
             <geometry>
@@ -154,6 +164,7 @@
         <parent link="door_base"/>
         <child link="frame_right"/>
     </joint>
+
     <link name="frame_bottom">
         <visual>
             <geometry>
@@ -171,6 +182,7 @@
         <parent link="door_base"/>
         <child link="frame_bottom"/>
     </joint>
+
     <link name="frame_top">
         <visual>
             <geometry>
