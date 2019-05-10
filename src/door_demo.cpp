@@ -3,7 +3,7 @@
 
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "pick_and_place");
+    ros::init(argc, argv, "door_demo");
     ros::NodeHandle node("~");
 
     ros::AsyncSpinner spinner(2);

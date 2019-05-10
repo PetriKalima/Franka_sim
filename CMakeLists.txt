@@ -5,10 +5,8 @@ project(franka_sim)
 add_compile_options(-std=c++11)
 
 
-#set(BINNAME testthing)
-#set(SOURCES src/test.cpp)
-set(BINNAME pick_and_place)
-set(SOURCES src/pick_and_place.cpp)
+set(BINNAME door_demo)
+set(SOURCES src/door_demo.cpp)
 
 
 ## Find catkin macros and libraries
