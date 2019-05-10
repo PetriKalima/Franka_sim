@@ -9,9 +9,6 @@
 
     <mujoco>
         <compiler meshdir="../meshes/" balanceinertia="true" discardvisual="false"/>
-        <!--<option cone="elliptic" impratio="10">
-            <geom friction="1.5 0.005 0.0001" solimp="0.99 0.99 0.01" solref="0.01 1"/>
-        </option>-->
     </mujoco>
 
     <link name="base_link"/>
@@ -19,7 +16,6 @@
     <link name="door_base"/>
 
     <joint name="door_base_joint" type="fixed">
-        <!-- <origin xyz="0.0 0.0 0.052" rpy="0 0 ${pi}"/> -->
         <origin xyz="0.4 0.25 0.052" rpy="0 0 ${-pi/2}"/>
         <parent link="base_link"/>
         <child link="door_base"/>
@@ -45,7 +41,6 @@
     
     <link name="door_link"/>
     <joint name="door_hinge" type="revolute">
-        <!-- <origin xyz="0.005 0.005 0.005" rpy="0 0 0"/> -->
         <origin xyz="0.262 0.049 0" rpy="0 0 0"/>
         <limit lower="0" upper="${pi/2}" effort="10" velocity="10"/>
         <axis xyz="0 0 -1"/>
