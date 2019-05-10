@@ -40,64 +40,65 @@ int main(int argc, char **argv) {
 
     // geometry message which is populated with the transformation from publish_frames.launch
 	//geometry_msgs::TransformStamped base_to_handle_pose;
-    geometry_msgs::TransformStamped base_to_core_pose;
+    geometry_msgs::TransformStamped base_to_handle_core_pose;
+    geometry_msgs::TransformStamped base_to_hinge_pose;
+    geometry_msgs::TransformStamped hinge_to_handle_pose;
+
     // read the tf into variable
 	//base_to_handle_pose = tfBuffer.lookupTransform("base_link", "handle", ros::Time(0), ros::Duration(20.0));
-	base_to_core_pose = tfBuffer.lookupTransform("base_link", "handle_core", ros::Time(0), ros::Duration(20.0));
-    // convert the geometric message into eigen
+	base_to_handle_core_pose = tfBuffer.lookupTransform("base_link", "handle", ros::Time(0), ros::Duration(20.0));
+    base_to_hinge_pose = tfBuffer.lookupTransform("base_link", "door_hinge", ros::Time(0), ros::Duration(20.0));
+    hinge_to_handle_pose = tfBuffer.lookupTransform("door_hinge", "handle", ros::Time(0), ros::Duration(20.0));
+
     //Eigen::Affine3d grasp;
-    Eigen::Affine3d core;
+    Eigen::Affine3d handle_core;
+    Eigen::Affine3d hinge;
+    Eigen::Affine3d hinge_handle;
 
+    // convert the geometric message into eigen
 	//tf::transformMsgToEigen(base_to_handle_pose.transform, grasp);
-	tf::transformMsgToEigen(base_to_core_pose.transform, core);
+	tf::transformMsgToEigen(base_to_handle_core_pose.transform, handle_core);
+	tf::transformMsgToEigen(base_to_hinge_pose.transform, hinge);
+    tf::transformMsgToEigen(hinge_to_handle_pose.transform, hinge_handle);
 
 
     //pregrasp
-    //Eigen::Affine3d e1 = grasp * Eigen::Translation3d(0, 0, -0.1);
+    float grasp_radius = .1; //radius of grasp location from handle core in metres
+    Eigen::Affine3d pregrasp = handle_core * Eigen::Translation3d(grasp_radius, 0, -0.1); //pregrasp 10cm away from handle
 
     //grasp
-    //Eigen::Affine3d e2 = grasp;
-
-    //handle_open
-    //Eigen::Affine3d e3 = grasp * Eigen::Translation3d(0, 0.05, 0) * Eigen::AngleAxisd(0.5, Eigen::Vector3d::UnitZ());
-
-    //base_link to door_base = "0.4 0.25 0.052"
-    //door_base to door_link = "0.262 0.049 0"
-    //door_link to door = "-0.257 -0.044 0.005"
-    //door to handle_core = "0.052 -0.06 0.095"
-    //equals to: base_link to handle_core = "0.457,0.195,0.152"
-    //Eigen::Affine3d e99 = core;
-
-    //pregrasp
-    float radius = .1; //radius of grasp location from handle core in metres
-    Eigen::Affine3d e1 = core * Eigen::Translation3d(radius, 0, -0.1);
-
-    //grasp
-    Eigen::Affine3d e2 = core * Eigen::Translation3d(radius, 0, 0);
+    Eigen::Affine3d grasp = handle_core * Eigen::Translation3d(grasp_radius, 0, 0);
 
     //open handle
-    int n = 10; // number of sections for move
-    float angle = 30; //rotation angle in degrees
-    //float radius = .1; //radius of move in metres
+    int n = 10; // number of points for move
+    float handle_angle = 30; //rotation angle in degrees
+    Eigen::Affine3d translation;
     Eigen::Affine3d point[n];
     for (int i=1; i<=n; i++){
-        float a = angle/n*i * M_PI/180; //step angle in degrees, convert to rad
-        float dx = cos(a)*radius; //step in x axis
-        float dy = sin(a)*radius; //step in y axis
-        point[i-1] = core * Eigen::Translation3d( dx, dy , 0 ) * Eigen::AngleAxisd(a, Eigen::Vector3d::UnitZ());
+        float a = handle_angle/n*i * M_PI/180; //step angle in degrees, convert to rad
+        float dx = cos(a)*grasp_radius; //step in x axis
+        float dy = sin(a)*grasp_radius; //step in y axis
+        translation = Eigen::Translation3d( dx, dy, 0) * Eigen::AngleAxisd(a, Eigen::Vector3d::UnitZ());
+        point[i-1] = handle_core * translation;
         vis.publishAxis(point[i-1]);
     }
 
-    //TODO add further points & publish them
+    //open door
+    int m = 10; // number of points for move
+    float door_angle = 30; //rotation angle in degrees
+    Eigen::Affine3d points[m];
+    for (int j=1; j<=m; j++){
+        float a2 = door_angle/m*j * M_PI/180; //step angle in degrees, convert to rad
+        points[j-1] = hinge * Eigen::AngleAxisd(a2, Eigen::Vector3d::UnitY()) * hinge_handle * translation;        
+        vis.publishAxis(points[j-1]);
+    }
+
 
     // save the poses
-    //vis.publishAxis(arm_to_ee);
-    vis.publishAxis(e1);
-    vis.publishAxis(e2);
-    //vis.publishAxis(e3);
-    //vis.publishAxis(e4);
-    //vis.publishAxis(e99);
-    vis.publishAxis(core);
+    vis.publishAxis(pregrasp);
+    vis.publishAxis(grasp);
+    vis.publishAxis(handle_core);
+    vis.publishAxis(hinge);
 
     // push the poses to rviz
 	vis.trigger();
@@ -106,9 +107,9 @@ int main(int argc, char **argv) {
     std::vector<moveit_msgs::RobotTrajectory> trajectories;
 
 
-// plan to pregrasp (e1)
+// plan to pregrasp
     g_arm.setStartState(state);
-    if (!state.setFromIK(jmg, e1, ee_link)) {
+    if (!state.setFromIK(jmg, pregrasp, ee_link)) {
         ROS_ERROR_STREAM("Cannot set arm position with IK");
         return -1;
     }
@@ -129,10 +130,10 @@ int main(int argc, char **argv) {
         g_hand.execute(trajectoryToPlan(traj1));
     }
 
-// cartesian to grasp (e2)
+// cartesian to grasp
 	g_arm.setStartStateToCurrentState();
     geometry_msgs::Pose pose1;
-    tf::poseEigenToMsg(e2 * arm_to_ee.inverse(), pose1);
+    tf::poseEigenToMsg(grasp * arm_to_ee.inverse(), pose1);
     moveit_msgs::RobotTrajectory rtraj1;
     const auto d1 = g_arm.computeCartesianPath({pose1}, 0.01, 1.4, rtraj1);
     if (d1 < 0.99) {
@@ -142,9 +143,6 @@ int main(int argc, char **argv) {
     trajectories.push_back(rtraj1);
 	g_arm.execute(trajectoryToPlan(rtraj1));
 
-    //g_hand.attachObject("handle_beam");
-
-
 // close gripper
     g_hand.setStartStateToCurrentState();
     const auto traj2 = getGripperTrajectory(g_hand, false);
@@ -152,29 +150,33 @@ int main(int argc, char **argv) {
         g_hand.execute(trajectoryToPlan(traj2));
     }
 
-//TODO:
-//turn handle
-//push door
-
-
-// cartesian to handle_open (point[i])
-    //int n = point.size();
+// cartesian to open handle (point[i])
     geometry_msgs::Pose pose[n];
     moveit_msgs::RobotTrajectory rtraj[n];
-    //const auto d[n] = d1;
-    //const auto d[n];
     for (int i=0; i<n; i++){
         g_arm.setStartStateToCurrentState();
         tf::poseEigenToMsg(point[i] * arm_to_ee.inverse(), pose[i]);
-        //const auto d = g_arm.computeCartesianPath({pose[i]}, 0.01, 1.4, rtraj[i]);
         if (g_arm.computeCartesianPath({pose[i]}, 0.01, 1.4, rtraj[i]) < 0.99) {
-            ROS_ERROR_STREAM("Cannot interpolate to the grasping position");
+            ROS_ERROR_STREAM("Cannot interpolate to the handle opening position(s)");
             return -1;
         }
         trajectories.push_back(rtraj[i]);
         g_arm.execute(trajectoryToPlan(rtraj[i]));
     }
 
+// cartesian to open door (points[j])
+    geometry_msgs::Pose poses[m];
+    moveit_msgs::RobotTrajectory rtrajs[m];
+    for (int j=0; j<m; j++){
+        g_arm.setStartStateToCurrentState();
+        tf::poseEigenToMsg(points[j] * arm_to_ee.inverse(), poses[j]);
+        if (g_arm.computeCartesianPath({poses[j]}, 0.01, 1.4, rtrajs[j]) < 0.99) {
+            ROS_ERROR_STREAM("Cannot interpolate to the door opening position(s)");
+            return -1;
+        }
+        trajectories.push_back(rtrajs[j]);
+        g_arm.execute(trajectoryToPlan(rtrajs[j]));
+    }
 
 
     //Visualise all trajectories

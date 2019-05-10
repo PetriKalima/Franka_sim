@@ -35,8 +35,8 @@
                         <inertial diaginertia="1 1 1" mass="0.0000001" pos="0 0 .010"/>
                         <geom condim="1" type="mesh" mesh="handle_latch" rgba="0 1 0 1"/>
                     </body>
-                </body>    
-            </body>          
+                </body>
+            </body>
             <body name="frame_left" pos="-.025 .010 0">
                 <inertial diaginertia="1 1 1" mass="100" pos="-.012 -.004 -.052"/>
                 <geom condim="3" type="mesh" mesh="frame_left" rgba="0 0 1 1"/>

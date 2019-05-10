@@ -2,13 +2,20 @@
     <!--The transformation format: x y z qx qy qz qw source_frame target_frame publishing_period-->
     <!-- (qx, qy, qz, qw)^T is a rotation in a quaternion representation -->
 
-    <!--The handle location is specified by "handle" frame -->
+    <!--The handle core location (at the handle beam depth) is specified by "handle_core" frame -->
     <node pkg="tf" name="handle_core_publisher" type="static_transform_publisher"
-          args="0.367 0.195 0.152 -0.5 0.5 -0.5 0.5 base_link handle_core 100"/>
-    <!--args="0.457 0.195 0.152 -0.5 0.5 -0.5 0.5 base_link handle_core 100"-->
+          args="0.367 0.195 0.152 -0.5 0.5 -0.5 0.5 base_link handle 100"/>
+          <!-- the actual centre of the core-->
+            <!--args="0.457 0.195 0.152 -0.5 0.5 -0.5 0.5 base_link handle_core 100"-->
 
+    <!--The hinge location is specified by "door_hinge" frame -->
+      <node pkg="tf" name="hinge_publisher" type="static_transform_publisher"
+          args="0.444 -0.007 0.057 -0.5 0.5 -0.5 0.5 base_link door_hinge 100"/>
+
+    <!--(OLD) The grasp location is specified by "handle" frame -->
+    <!--
     <node pkg="tf" name="handle_grasp_publisher" type="static_transform_publisher"
-          args="0.367 0.095 0.152 -0.5 0.5 -0.5 0.5 base_link handle 100"/>
+          args="0.367 0.095 0.152 -0.5 0.5 -0.5 0.5 base_link handle 100"/>-->
     <!--<origin xyz="0.4 0.25 0.052" rpy="0 0 ${-pi/2}"/>-->
 
 </launch>
