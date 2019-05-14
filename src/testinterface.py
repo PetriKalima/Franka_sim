@@ -39,7 +39,6 @@ def main():
     newstate = newSim.setState(values)
     print(newstate)
     '''          
-    
-
+  
 
 main()   

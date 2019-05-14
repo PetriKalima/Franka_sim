@@ -226,8 +226,17 @@
     <limit effort="20" lower="0.0" upper="0.04" velocity="0.2"/>
     <mimic joint="lumi_finger_joint1"/>
   </joint>
+  <link name="lumi_ee"/>
+  <joint name="ee_fjoint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.116"/>
+    <parent link="lumi_hand"/>
+    <child link="lumi_ee"/>
+  </joint>
   <mujoco>
     <compiler balanceinertia="true" discardvisual="false" meshdir="../meshes/"/>
+    <!--<option cone="elliptic" impratio="10">
+            <geom friction="1.5 0.005 0.0001" solimp="0.99 0.99 0.01" solref="0.01 1"/>
+        </option>-->
   </mujoco>
   <link name="base_link"/>
   <link name="door_base"/>
@@ -240,50 +249,60 @@
   <link name="door">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/door_v4_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/door_v5_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/door_v4_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/door_v5_bin.stl"/>
       </geometry>
     </collision>
   </link>
-  <joint name="door_hinge" type="revolute">
-    <origin rpy="0 0 0" xyz="0.005 0.005 0.005"/>
-    <limit effort="10" lower="0" upper="1.57079632679" velocity="10"/>
-    <parent link="door_base"/>
+  <joint name="door_to_hinge" type="fixed">
+    <origin rpy="0 0 0" xyz="-0.257 -0.044 0.005"/>
+    <parent link="door_link"/>
     <child link="door"/>
+  </joint>
+  <link name="door_link"/>
+  <joint name="door_hinge" type="revolute">
+    <!-- <origin xyz="0.005 0.005 0.005" rpy="0 0 0"/> -->
+    <origin rpy="0 0 0" xyz="0.262 0.049 0"/>
+    <limit effort="10" lower="0" upper="1.57079632679" velocity="10"/>
+    <axis xyz="0 0 -1"/>
+    <parent link="door_base"/>
+    <child link="door_link"/>
   </joint>
   <link name="handle_core">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_core_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/handle_v5_core_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_core_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/handle_v5_core_bin.stl"/>
       </geometry>
     </collision>
   </link>
   <joint name="handle_core" type="revolute">
     <origin rpy="0 0 0" xyz="0.052 -0.06 0.095"/>
     <limit effort="10" lower="0" upper="0.523598775598" velocity="10"/>
+    <axis xyz="0 1 0"/>
     <parent link="door"/>
     <child link="handle_core"/>
   </joint>
+  <!-- handle_beam visuals and collisions removed due to problems with moveit collisions between robot left/right fingers and handle_beam -->
   <link name="handle_beam">
-    <visual>
-      <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_beam_bin.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </visual>
-    <collision>
-      <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_beam_bin.stl" scale="0.001 0.001 0.001"/>
-      </geometry>
-    </collision>
+    <!--<visual>
+            <geometry>
+              <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
+            </geometry>
+        </visual>
+        <collision>
+           <geometry>
+               <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
+           </geometry>
+        </collision>-->
   </link>
   <joint name="handle_beam_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.015 0.0 -0.0165"/>
@@ -293,12 +312,12 @@
   <link name="handle_latch">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_latch_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/handle_v5_latch_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/handle_v4_latch_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/handle_v5_latch_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -310,12 +329,12 @@
   <link name="frame_left">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_leftpillar_back_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_back_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_leftpillar_back_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_back_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -327,12 +346,12 @@
   <link name="frame_left_front">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_leftpillar_front_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_front_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_leftpillar_front_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_leftpillar_front_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -344,12 +363,12 @@
   <link name="frame_right">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_rightpillar_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_rightpillar_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_rightpillar_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_rightpillar_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -361,12 +380,12 @@
   <link name="frame_bottom">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -378,12 +397,12 @@
   <link name="frame_top">
     <visual>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
       </geometry>
     </visual>
     <collision>
       <geometry>
-        <mesh filename="package://franka_sim/model/meshes/frame_v4_top_bottom_bin.stl" scale="0.001 0.001 0.001"/>
+        <mesh filename="package://franka_sim/model/meshes/frame_v5_top_bottom_bin.stl"/>
       </geometry>
     </collision>
   </link>
@@ -394,14 +413,14 @@
   </joint>
 </robot>
 <!-- <asset>
-        <mesh file="stl/frame_v4_leftpillar_back_bin.stl" name="frame_left"/>
-        <mesh file="stl/frame_v4_leftpillar_front_bin.stl" name="frame_left_front"/>
-        <mesh file="stl/frame_v4_rightpillar_bin.stl" name="frame_right"/>
-        <mesh file="stl/frame_v4_top_bottom_bin.stl" name="frame_top_bottom"/>
-        <mesh file="stl/door_v4_bin.stl" name="door"/>
-        <mesh file="stl/handle_v4_beam_bin.stl" name="handle_beam"/>
-        <mesh file="stl/handle_v4_latch_bin.stl" name="handle_latch"/>
-        <mesh file="stl/handle_v4_core_bin.stl" name="handle_core"/>
+        <mesh file="stl/frame_v5_leftpillar_back_bin.stl" name="frame_left"/>
+        <mesh file="stl/frame_v5_leftpillar_front_bin.stl" name="frame_left_front"/>
+        <mesh file="stl/frame_v5_rightpillar_bin.stl" name="frame_right"/>
+        <mesh file="stl/frame_v5_top_bottom_bin.stl" name="frame_top_bottom"/>
+        <mesh file="stl/door_v5_bin.stl" name="door"/>
+        <mesh file="stl/handle_v5_beam_bin.stl" name="handle_beam"/>
+        <mesh file="stl/handle_v5_latch_bin.stl" name="handle_latch"/>
+        <mesh file="stl/handle_v5_core_bin.stl" name="handle_core"/>
 </asset> -->
 <!-- <body pos="0 0 0">
     <body name="door" pos="5 5 5">

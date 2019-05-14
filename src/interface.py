@@ -1,4 +1,5 @@
 import mujoco_py
+import numpy as np
 
 
 class Simpackage:
@@ -26,10 +27,11 @@ class Simpackage:
         self.viewer.render()
 
     def getState(self):
-        return self.sim.get_state()
+        state = self.sim.get_state()
+        return np.array([state.qpos, state.qvel])
 
     def setState(self, values):
-        currState = self.getState()
+        currState = self.sim.get_state()
 
         newQpos = []
         for joint in self.joints:
@@ -45,6 +47,8 @@ class Simpackage:
         self.sim.step()
         self.view()
 
+    def reset(self):
+        self.sim.set_state(self.initState)
 
 '''
 TODO
@@ -54,3 +58,7 @@ TODO
 -step function
 -reset function
 '''        
+
+    
+    
+

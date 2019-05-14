@@ -1,22 +1,13 @@
-<!--
-Created on: 12/14/18
-    Author: Vladimir Petrik <vladimir.petrik@aalto.fi>
-   Details: This file publishes two transformation into the tf server:
-            1) a transformation between the "base_link" frame and the "pick" frame;
-            2) a transformation between the "base_link" frame and the "place" frame.
--->
-
 <launch>
     <!--The transformation format: x y z qx qy qz qw source_frame target_frame publishing_period-->
     <!-- (qx, qy, qz, qw)^T is a rotation in a quaternion representation -->
 
-    <!--The initial target location is specified by "handle" frame -->
-    <node pkg="tf" name="pick_publisher" type="static_transform_publisher"
-          args="0.35 0.12 0.15 -0.5 0.5 -0.5 0.5 base_link handle 100"/>
-      <!--<origin xyz="0.4 0.25 0.052" rpy="0 0 ${-pi/2}"/>-->
+    <!--The handle core location (at the handle beam depth) is specified by "handle_core" frame -->
+    <node pkg="tf" name="handle_core_publisher" type="static_transform_publisher"
+          args="0.367 0.195 0.152 -0.5 0.5 -0.5 0.5 base_link handle 100"/>
 
-    <!--The final target location is specified by "place" frame -->
-    <!--node pkg="tf" name="place_publisher" type="static_transform_publisher"
-          args="0.0 -0.5 0.2 0 0 0 1 base_link place 100"/-->
+    <!--The hinge location is specified by "door_hinge" frame -->
+      <node pkg="tf" name="hinge_publisher" type="static_transform_publisher"
+          args="0.444 -0.007 0.057 -0.5 0.5 -0.5 0.5 base_link door_hinge 100"/>
 
 </launch>
