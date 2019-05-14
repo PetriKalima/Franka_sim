@@ -3,6 +3,9 @@ from interface import Simpackage
 def main():
     newSim = Simpackage('../model/robots/samplefinal.xml')
     print(newSim.initState)
+    '''
+    Joint values are radians, except for finger joints which use meters
+    '''
     values = {"lumi_joint1": 0.2,
               "lumi_joint2": 0.2,
               "lumi_joint3": 0.2,
@@ -16,7 +19,11 @@ def main():
               "handle_core": 0.6 
               }
     newstate = newSim.setState(values)
-    print(newstate)
+    while True:
+        newSim.step()
+        newstate = newSim.getState()
+        print(newstate)
+    '''
     values = {"lumi_joint1": 0.4,
               "lumi_joint2": None,
               "lumi_joint3": 0.3,
@@ -30,8 +37,9 @@ def main():
               "handle_core": 0.6 
               }
     newstate = newSim.setState(values)
-    print(newstate)          
-    newSim.view()
+    print(newstate)
+    '''          
+    
 
 
 main()   
