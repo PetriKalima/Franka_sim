@@ -29,7 +29,7 @@
                     <geom condim="1" type="mesh" mesh="handle_core" rgba="0 1 0 1"/>
                     <body name="handle_beam" pos=".015 0 -.0165">
                         <inertial diaginertia="1 1 1" mass="0.1" pos="0 .0165 0"/>
-                        <geom condim="6" type="mesh" mesh="handle_beam" rgba="0 1 0 1" friction="1, .005, .0001"/>
+                        <geom name="beam" condim="6" type="mesh" mesh="handle_beam" rgba="0 1 0 1" friction="1 .005 .0001"/>
                     </body>
                     <body name="handle_latch" pos="-.015 .040 -.010">
                         <inertial diaginertia="1 1 1" mass="0.0000001" pos="0 0 .010"/>
@@ -59,6 +59,16 @@
             </body>
         </body>    
     </worldbody>
+    <!--<default>
+    <default class="handle-robot">
+            <pair condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
+    </default>
+</default>-->
+    
+    <contact>
+        <pair geom1="beam" geom2="leftfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
+        <pair geom1="beam" geom2="rightfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
+    </contact>
     <actuator>
         <!-- <motor gear="10" joint="door_hinge" forcerange="0 20" forcelimited="true"/>
         <motor gear="10" joint="handle_core" forcerange="0 200" forcelimited="true"/> -->

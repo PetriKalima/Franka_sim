@@ -57,13 +57,13 @@
                                     <body name="lumi_leftfinger" pos="0 0 0.1654" quat="0.92388 0 0 -0.382683">
                                         <inertial pos="-2.42335e-05 0.0119585 0.0237816" quat="0.996177 0.0868631 -2.79377e-05 -0.00926642" mass="0.0218754" diaginertia="5.69661e-06 5.56035e-06 1.55183e-06" />
                                         <joint name="lumi_finger_joint1" pos="0 0 0" axis="0 1 0" type="slide" limited="true" range="0 0.04" />
-                                        <geom type="mesh" contype="0" conaffinity="0" group="1" mesh="finger" />
+                                        <geom name="leftfinger" type="mesh" contype="0" conaffinity="0" group="1" mesh="finger" />
                                         <geom type="mesh" mesh="finger" />
                                     </body>
                                     <body name="lumi_rightfinger" pos="0 0 0.1654" quat="0.92388 0 0 -0.382683">
                                         <inertial pos="2.42335e-05 -0.0119585 0.0237816" quat="0.996177 -0.0868631 2.79377e-05 -0.00926642" mass="0.0218754" diaginertia="5.69661e-06 5.56035e-06 1.55183e-06" />
                                         <joint name="lumi_finger_joint2" pos="0 0 0" axis="0 -1 0" type="slide" limited="true" range="0 0.04" />
-                                        <geom quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" mesh="finger" />
+                                        <geom name="rightfinger" quat="0 0 0 1" type="mesh" contype="0" conaffinity="0" group="1" mesh="finger" />
                                         <geom quat="0 0 0 1" type="mesh" mesh="finger" />
                                     </body>
                                 </body>
