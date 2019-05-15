@@ -71,12 +71,17 @@
     <!-- handle_beam visuals and collisions removed due to problems with moveit collisions between robot left/right fingers and handle_beam -->
     <!-- TODO: replace collision with some "dummy" stl file which would not collide with robot -->
     <link name="handle_beam">
-        <!--<visual>
+        <visual>
             <geometry>
               <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
             </geometry>
         </visual>
         <collision>
+            <geometry>
+                <box size="0.005 0.005 0.005"/>
+            </geometry>
+        </collision>
+        <!--<collision>
            <geometry>
                <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
            </geometry>
