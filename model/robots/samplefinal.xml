@@ -66,8 +66,8 @@
 </default>-->
     
     <contact>
-        <pair geom1="beam" geom2="leftfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
-        <pair geom1="beam" geom2="rightfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
+        <pair geom1="beam" geom2="leftfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.5 0.0001"/>
+        <pair geom1="beam" geom2="rightfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.5 0.0001"/>
     </contact>
     <actuator>
         <motor gear="1" joint="lumi_joint1"/>
