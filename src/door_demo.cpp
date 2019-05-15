@@ -84,8 +84,8 @@ int main(int argc, char **argv) {
     }
 
     //open door
-    int m = 100; // number of points for move
-    float door_angle = 90; //rotation angle in degrees
+    int m = 30; // number of points for move
+    float door_angle = 30; //rotation angle in degrees
     Eigen::Affine3d points[m];
     for (int j=1; j<=m; j++){
         float a2 = door_angle/m*j * M_PI/180; //step angle in degrees, convert to rad
