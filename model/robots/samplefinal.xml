@@ -70,17 +70,17 @@
         <pair geom1="beam" geom2="rightfinger" condim="6" solref="0.004 1" solimp="0.30 0.99 0.004" friction="1 0.005 0.0001"/>
     </contact>
     <actuator>
-        <!-- <motor gear="10" joint="door_hinge" forcerange="0 20" forcelimited="true"/>
-        <motor gear="10" joint="handle_core" forcerange="0 200" forcelimited="true"/> -->
-        <motor gear="-1" joint="lumi_joint4"/>
-        <motor gear="5" joint="lumi_joint2"/>
+        <motor gear="1" joint="lumi_joint1"/>
+        <motor gear="1" joint="lumi_joint2"/>
         <motor gear="1" joint="lumi_joint3"/>
+        <motor gear="1" joint="lumi_joint4"/>
+        <motor gear="1" joint="lumi_joint5"/>
         <motor gear="1" joint="lumi_joint6"/>
-        <motor gear="0.1" joint="lumi_joint7"/>
-        <motor gear="3.2" joint="lumi_joint2"/>
-        <motor gear="0.5" joint="lumi_joint6"/>
+        <motor gear="1" joint="lumi_joint7"/>
         <motor gear="1" joint="lumi_finger_joint1"/>
         <motor gear="1" joint="lumi_finger_joint2"/>
+        <motor gear="1" joint="door_hinge" forcerange="0 20" forcelimited="true"/>
+        <motor gear="1" joint="handle_core" forcerange="0 200" forcelimited="true"/>
     </actuator> 
 </mujoco>
 

@@ -8,6 +8,7 @@ class Simpackage:
         self.model = mujoco_py.load_model_from_path(modelPath)
         self.sim = mujoco_py.MjSim(self.model)
         self.initState = self.sim.get_state()
+        self.viewer = mujoco_py.MjViewer(self.sim)
         self.joints = [ "lumi_joint1",
                         "lumi_joint2",
                         "lumi_joint3",
@@ -23,9 +24,7 @@ class Simpackage:
         
 
     def view(self):
-        self.viewer = mujoco_py.MjViewer(self.sim)
-        while True:
-            self.viewer.render()
+        self.viewer.render()
 
     def getState(self):
         state = self.sim.get_state()
@@ -38,22 +37,28 @@ class Simpackage:
         for joint in self.joints:
             try:
                 newvalue = values[joint]
-                if newvalue != None:
-                    try:
-                        newvalue = float(newvalue)
-                    except ValueError:
-                        print("The joint values in values dictionary need to be either numeric or None")
-                        return
-                else:
-                    newvalue=currState.qpos[self.joints.index(joint)]
+                self.sim.data.ctrl[self.joints.index(joint)] = newvalue
             except KeyError:
-                print(joint, " was not found from values dictionary")
-            newQpos.append(newvalue)
-        newState = mujoco_py.MjSimState(time=currState.time, qpos=newQpos,
-                                        qvel=[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.], act=None, udd_state={})
-        self.sim.set_state(newState)
-        return self.sim.get_state()
+                print(joint, " was not found")
+        
+        return self.getState()            
 
-    
+    def step(self):
+        self.sim.step()
+        self.view()
+
     def reset(self):
         self.sim.set_state(self.initState)
+
+'''
+TODO
+-Change approach from qpos to sim.data.ctrl
+-fix camera
+-Return state in different form
+-step function
+-reset function
+'''        
+
+    
+    
+
