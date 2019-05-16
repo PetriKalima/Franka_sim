@@ -61,16 +61,22 @@ int main(int argc, char **argv) {
 	tf::transformMsgToEigen(base_to_hinge_pose.transform, hinge);
     tf::transformMsgToEigen(hinge_to_handle_pose.transform, hinge_handle);
 
+    /* reposition the handle core correctly 
+    (flip axis so it can be used for robot goal states)
+    (translate to correct depth)
+    */
+    Eigen::Affine3d rotx = Eigen::Translation3d(0,0,0) * Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitX());
+    Eigen::Affine3d handle_core_fix = handle_core * rotx * Eigen::Translation3d(0, 0, 0.02);
 
     // Definitions of grasp locations
     // Radius of grasp location from handle core (in metres)
     float grasp_radius = .1; 
 
     //pregrasp frame
-    Eigen::Affine3d pregrasp = handle_core * Eigen::Translation3d(grasp_radius, 0, -0.1); //pregrasp 10cm away from handle
+    Eigen::Affine3d pregrasp = handle_core_fix * Eigen::Translation3d(grasp_radius, 0, -0.1); //pregrasp 10cm away from handle
 
     //grasp frame
-    Eigen::Affine3d grasp = handle_core * Eigen::Translation3d(grasp_radius, 0, 0);
+    Eigen::Affine3d grasp = handle_core_fix * Eigen::Translation3d(grasp_radius, 0, 0);
 
     //frames for opening the handle
     int n = 10; // number of points for move
@@ -82,17 +88,17 @@ int main(int argc, char **argv) {
         float dx = cos(a)*grasp_radius; //step in x axis
         float dy = sin(a)*grasp_radius; //step in y axis
         translation = Eigen::Translation3d( dx, dy, 0) * Eigen::AngleAxisd(a, Eigen::Vector3d::UnitZ());
-        point[i-1] = handle_core * translation;
+        point[i-1] = handle_core_fix * translation;
         vis.publishAxis(point[i-1]);
     }
 
     //frames for opening the door
     int m = 30; // number of points for move
-    float door_angle = 30; //rotation angle in degrees
+    float door_angle = 90; //rotation angle in degrees
     Eigen::Affine3d points[m];
     for (int j=1; j<=m; j++){
         float a2 = door_angle/m*j * M_PI/180; //step angle in degrees, convert to rad
-        points[j-1] = hinge * Eigen::AngleAxisd(a2, Eigen::Vector3d::UnitY()) * hinge_handle * translation;        
+        points[j-1] = hinge * Eigen::AngleAxisd(-a2, Eigen::Vector3d::UnitZ()) * hinge_handle * rotx * translation;        
         vis.publishAxis(points[j-1]);
     }
 
