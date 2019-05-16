@@ -46,7 +46,6 @@ int main(int argc, char **argv) {
     geometry_msgs::TransformStamped base_to_hinge_pose;
     geometry_msgs::TransformStamped hinge_to_handle_pose;
 
-    // handle_core and door_hinge are defined in publish_frames.launch
     // Read the tf into variable
 	base_to_handle_core_pose = tfBuffer.lookupTransform("base_link", "handle_core", ros::Time(0), ros::Duration(20.0));
     base_to_hinge_pose = tfBuffer.lookupTransform("base_link", "door_link", ros::Time(0), ros::Duration(20.0));
