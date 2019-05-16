@@ -37,7 +37,11 @@ class Simpackage:
         for joint in self.joints:
             try:
                 newvalue = values[joint]
-                self.sim.data.ctrl[self.joints.index(joint)] = newvalue
+                try:
+                    newvalue = float(newvalue)
+                    self.sim.data.ctrl[self.joints.index(joint)] = newvalue
+                except ValueError:
+                    print("given value must be numeric")    
             except KeyError:
                 print(joint, " was not found")
         
@@ -52,11 +56,8 @@ class Simpackage:
 
 '''
 TODO
--Change approach from qpos to sim.data.ctrl
--fix camera
--Return state in different form
--step function
--reset function
+-Change step-function to imitate hockeypuck_env (action given straight to step)
+-Counter gravity with self.sim.data.qfrc_bias
 '''        
 
     

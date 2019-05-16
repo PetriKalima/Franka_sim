@@ -6,23 +6,26 @@ def main():
     '''
     Joint values are radians, except for finger joints which use meters
     '''
-    values = {"lumi_joint1": 0.2,
-              "lumi_joint2": 0.2,
-              "lumi_joint3": 0.2,
-              "lumi_joint4": 0.2,
-              "lumi_joint5": 0.2,
-              "lumi_joint6": 0.2,
-              "lumi_joint7": 0.2,
-              "lumi_finger_joint1": 0.001,
-              "lumi_finger_joint2": 0.001,
-              "door_hinge": 0.5,
-              "handle_core": 0.6 
-              }
-    newstate = newSim.setState(values)
+    
+    # values = {"lumi_joint1": 0.1,
+    #           "lumi_joint2": 0.1,
+    #           "lumi_joint3": 0.1,
+    #           "lumi_joint4": 0.1,
+    #           "lumi_joint5": 0.1,
+    #           "lumi_joint6": 0.1,
+    #           "lumi_joint7": 0.1,
+    #           "lumi_finger_joint1": 0.001,
+    #           "lumi_finger_joint2": 0.001,
+    #           "door_hinge": 0.5,
+    #           "handle_core": 0.6 
+    #           }
+              
+    # newstate = newSim.setState(values)
     while True:
+        # values = updateValues(values)
+        # newstate = newSim.setState(values)
+        # print(newstate)
         newSim.step()
-        newstate = newSim.getState()
-        print(newstate)
     '''
     values = {"lumi_joint1": 0.4,
               "lumi_joint2": None,
@@ -39,6 +42,9 @@ def main():
     newstate = newSim.setState(values)
     print(newstate)
     '''          
-  
+def updateValues(values):
+    for key in values.keys():
+        values[key] += 0.01 
+    return values      
 
 main()   
