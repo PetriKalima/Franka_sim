@@ -5,6 +5,7 @@ project(franka_sim)
 add_compile_options(-std=c++11)
 
 
+##Used for declaring/adding dependencies/etc for the CPP file
 set(BINNAME door_demo)
 set(SOURCES src/door_demo.cpp)
 
@@ -53,12 +54,9 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * uncomment the generate_messages entry below
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
-###WARNING Using xacro builder leads to error:
-###ERROR: Eigen/Geometry not found
-
-#find_package(catkin REQUIRED urdf xacro franka_description)
-#file(GLOB xacro_files model/robots/*.urdf.xacro)
-#xacro_add_files(${xacro_files} TARGET media_files INORDER)
+##Generate the urdf files from urdf.xacro files
+file(GLOB xacro_files model/robots/*.urdf.xacro)
+xacro_add_files(${xacro_files} TARGET media_files INORDER)
 
 ## Generate messages in the 'msg' folder
 # add_message_files(

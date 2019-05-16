@@ -1,3 +1,8 @@
+/*
+The door_demo demonstrates a proof of concept operation task of the door model
+The code is loosely based on the 'robotic manipulation' -course's exercise 2: pick_and_place.cpp
+*/
+
 #include <functions.h>
 #include <std_srvs/Empty.h>
 
@@ -14,7 +19,6 @@ int main(int argc, char **argv) {
     ros::service::call("/lumi_mujoco/reset", srv_reset);
 
     // Load MoveGroup interface and moveit visual tools
-    // lumi_arm and hand are separate control groups 
     moveit::planning_interface::MoveGroupInterface g_arm("lumi_arm");
     moveit::planning_interface::MoveGroupInterface g_hand("lumi_hand");
     moveit_visual_tools::MoveItVisualTools vis("base_link");
@@ -34,42 +38,41 @@ int main(int argc, char **argv) {
     const auto ee_link = "lumi_ee";
     const Eigen::Affine3d arm_to_ee = state.getGlobalLinkTransform(g_arm.getEndEffectorLink()).inverse() * state.getGlobalLinkTransform(ee_link);// * Eigen::AngleAxisd(M_PI, Eigen::Vector3d::UnitX());
 
-    // required for tf stuff
 	tf2_ros::Buffer tfBuffer;
 	tf2_ros::TransformListener tfListener(tfBuffer);
 
-    // geometry message which is populated with the transformation from publish_frames.launch
-	//geometry_msgs::TransformStamped base_to_handle_pose;
+    // Geometry message which is populated with transformations from publish_frames.launch
     geometry_msgs::TransformStamped base_to_handle_core_pose;
     geometry_msgs::TransformStamped base_to_hinge_pose;
     geometry_msgs::TransformStamped hinge_to_handle_pose;
 
-    // read the tf into variable
-	//base_to_handle_pose = tfBuffer.lookupTransform("base_link", "handle", ros::Time(0), ros::Duration(20.0));
-	base_to_handle_core_pose = tfBuffer.lookupTransform("base_link", "handle", ros::Time(0), ros::Duration(20.0));
-    base_to_hinge_pose = tfBuffer.lookupTransform("base_link", "door_hinge", ros::Time(0), ros::Duration(20.0));
-    hinge_to_handle_pose = tfBuffer.lookupTransform("door_hinge", "handle", ros::Time(0), ros::Duration(20.0));
+    // handle_core and door_hinge are defined in publish_frames.launch
+    // Read the tf into variable
+	base_to_handle_core_pose = tfBuffer.lookupTransform("base_link", "handle_core", ros::Time(0), ros::Duration(20.0));
+    base_to_hinge_pose = tfBuffer.lookupTransform("base_link", "door_link", ros::Time(0), ros::Duration(20.0));
+    hinge_to_handle_pose = tfBuffer.lookupTransform("door_link", "handle_core", ros::Time(0), ros::Duration(20.0));
 
-    //Eigen::Affine3d grasp;
     Eigen::Affine3d handle_core;
     Eigen::Affine3d hinge;
     Eigen::Affine3d hinge_handle;
 
-    // convert the geometric message into eigen
-	//tf::transformMsgToEigen(base_to_handle_pose.transform, grasp);
+    // Convert the geometric message into eigen
 	tf::transformMsgToEigen(base_to_handle_core_pose.transform, handle_core);
 	tf::transformMsgToEigen(base_to_hinge_pose.transform, hinge);
     tf::transformMsgToEigen(hinge_to_handle_pose.transform, hinge_handle);
 
 
-    //pregrasp
-    float grasp_radius = .1; //radius of grasp location from handle core in metres
+    // Definitions of grasp locations
+    // Radius of grasp location from handle core (in metres)
+    float grasp_radius = .1; 
+
+    //pregrasp frame
     Eigen::Affine3d pregrasp = handle_core * Eigen::Translation3d(grasp_radius, 0, -0.1); //pregrasp 10cm away from handle
 
-    //grasp
+    //grasp frame
     Eigen::Affine3d grasp = handle_core * Eigen::Translation3d(grasp_radius, 0, 0);
 
-    //open handle
+    //frames for opening the handle
     int n = 10; // number of points for move
     float handle_angle = 30; //rotation angle in degrees
     Eigen::Affine3d translation;
@@ -83,7 +86,7 @@ int main(int argc, char **argv) {
         vis.publishAxis(point[i-1]);
     }
 
-    //open door
+    //frames for opening the door
     int m = 30; // number of points for move
     float door_angle = 30; //rotation angle in degrees
     Eigen::Affine3d points[m];

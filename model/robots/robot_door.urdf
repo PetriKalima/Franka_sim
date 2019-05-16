@@ -234,17 +234,21 @@
   </joint>
   <mujoco>
     <compiler balanceinertia="true" discardvisual="false" meshdir="../meshes/"/>
-    <!--<option cone="elliptic" impratio="10">
-            <geom friction="1.5 0.005 0.0001" solimp="0.99 0.99 0.01" solref="0.01 1"/>
-        </option>-->
   </mujoco>
   <link name="base_link"/>
   <link name="door_base"/>
   <joint name="door_base_joint" type="fixed">
-    <!-- <origin xyz="0.0 0.0 0.052" rpy="0 0 ${pi}"/> -->
     <origin rpy="0 0 -1.57079632679" xyz="0.4 0.25 0.052"/>
     <parent link="base_link"/>
     <child link="door_base"/>
+  </joint>
+  <link name="door_link"/>
+  <joint name="door_hinge" type="revolute">
+    <origin rpy="0 0 0" xyz="0.262 0.049 0"/>
+    <limit effort="10" lower="0" upper="1.57079632679" velocity="10"/>
+    <axis xyz="0 0 -1"/>
+    <parent link="door_base"/>
+    <child link="door_link"/>
   </joint>
   <link name="door">
     <visual>
@@ -262,15 +266,6 @@
     <origin rpy="0 0 0" xyz="-0.257 -0.044 0.005"/>
     <parent link="door_link"/>
     <child link="door"/>
-  </joint>
-  <link name="door_link"/>
-  <joint name="door_hinge" type="revolute">
-    <!-- <origin xyz="0.005 0.005 0.005" rpy="0 0 0"/> -->
-    <origin rpy="0 0 0" xyz="0.262 0.049 0"/>
-    <limit effort="10" lower="0" upper="1.57079632679" velocity="10"/>
-    <axis xyz="0 0 -1"/>
-    <parent link="door_base"/>
-    <child link="door_link"/>
   </joint>
   <link name="handle_core">
     <visual>
@@ -291,14 +286,19 @@
     <parent link="door"/>
     <child link="handle_core"/>
   </joint>
-  <!-- handle_beam visuals and collisions removed due to problems with moveit collisions between robot left/right fingers and handle_beam -->
+  <!-- handle_beam collision mesh replaced by dummy due to issues with moveit collisions between robot left/right fingers and handle_beam -->
   <link name="handle_beam">
-    <!--<visual>
-            <geometry>
-              <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
-            </geometry>
-        </visual>
-        <collision>
+    <visual>
+      <geometry>
+        <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.005 0.005 0.005"/>
+      </geometry>
+    </collision>
+    <!--<collision>
            <geometry>
                <mesh filename="package://franka_sim/model/meshes/handle_v5_beam_bin.stl"/>
            </geometry>

@@ -1,17 +1,16 @@
 <?xml version="1.0"?>
 
 <launch>
-
+    <!--The models used by rviz and mujoco are separate, to make use of the additional functionality of xml in mujoco-->
     <arg name="urdf_door" default="$(find franka_sim)/model/robots/robot_door.urdf"/>
-    <arg name="model" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
+    <arg name="xml_door" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
 
 
     <include file="$(find franka_sim)/launch/simulation.launch">
-        <arg name="model" default="$(arg model)"/>
-        <arg name="mujoco_model" default="$(arg model)"/>
-
-        <arg name="urdf_model" default="$(arg urdf_door)"/>
-
+        <!--Use the xml instead of urdf-->
+        <arg name="mujoco_model" default="$(arg xml_door)"/>
+        <!---->
+        <arg name="rviz_model" default="$(arg urdf_door)"/>
 
         <arg name="look_at_x" default="0.1"/>
         <arg name="look_at_y" default="-0.45"/>
