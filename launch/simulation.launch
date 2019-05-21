@@ -21,6 +21,7 @@ Created on: 11/13/18
 
     <arg name="model" default="$(find lumi_description)/robots/robot.urdf"/>
     <!--The mujoco and rviz models are separated into mujoco_model and rviz_model-->
+    <!--The door.launch gives different files for these args-->
     <arg name="mujoco_model" default="$(arg model)"/>
     <arg name="rviz_model" default="$(arg model)"/>
     <!--Compensate bias forces in mujoco; If true the effort visible to ROS will not contains gravity/corollios/etc. forces -->
@@ -44,7 +45,8 @@ Created on: 11/13/18
     </group>
 
     <node name="lumi_mujoco" type="mujoco_control" pkg="mujoco_ros_control" output="screen">
-        <param name="model" value="$(arg mujoco_model)"/> <!--Uses the xml for mujoco-->
+        <!--Uses the samplefinal.xml for mujoco-->
+        <param name="model" value="$(arg mujoco_model)"/>
         <remap from="/lumi_mujoco/trajectory_controller/follow_joint_trajectory"
                to="/lumi_arm_controller/follow_joint_trajectory"/>
         <remap from="/lumi_mujoco/trajectory_controller_fingers/follow_joint_trajectory"

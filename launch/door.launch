@@ -6,11 +6,11 @@
     <arg name="xml_door" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
 
     <include file="$(find franka_sim)/launch/simulation.launch">
-        <!--Use the xml instead of urdf-->
+        <!--Use the xml for mujoco-->
         <arg name="mujoco_model" default="$(arg xml_door)"/>
-        <!---->
+        <!--Use urdf for rviz-->
         <arg name="rviz_model" default="$(arg urdf_door)"/>
-
+        <!--The coordinates the camera looks at-->
         <arg name="look_at_x" default="0.1"/>
         <arg name="look_at_y" default="-0.45"/>
         <arg name="look_at_z" default="1.1"/>
