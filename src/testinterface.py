@@ -3,29 +3,34 @@ from interface import Simpackage
 def main():
     newSim = Simpackage('../model/robots/samplefinal.xml')
     print(newSim.initState)
+    print(newSim.sim.data.qfrc_bias)
+    
+
     '''
     Joint values are radians, except for finger joints which use meters
     '''
     
-    # values = {"lumi_joint1": 0.1,
-    #           "lumi_joint2": 0.1,
-    #           "lumi_joint3": 0.1,
-    #           "lumi_joint4": 0.1,
-    #           "lumi_joint5": 0.1,
-    #           "lumi_joint6": 0.1,
-    #           "lumi_joint7": 0.1,
-    #           "lumi_finger_joint1": 0.001,
-    #           "lumi_finger_joint2": 0.001,
-    #           "door_hinge": 0.5,
-    #           "handle_core": 0.6 
-    #           }
+    values = {"lumi_joint1": 0,
+              "lumi_joint2": 0,
+              "lumi_joint3": 0,
+              "lumi_joint4": 0,
+              "lumi_joint5": 0,
+              "lumi_joint6": 0,
+              "lumi_joint7": 0,
+              "lumi_finger_joint1": 0,
+              "lumi_finger_joint2": 0,
+              "door_hinge": 0,
+              "handle_core": 0 
+              }
               
     # newstate = newSim.setState(values)
     while True:
-        # values = updateValues(values)
+        #values = updateValues(values, newSim)
         # newstate = newSim.setState(values)
         # print(newstate)
         newSim.step()
+        print(newSim.sim.data.qfrc_applied)
+        print(newSim.sim.data.ncon)
     '''
     values = {"lumi_joint1": 0.4,
               "lumi_joint2": None,
@@ -42,9 +47,12 @@ def main():
     newstate = newSim.setState(values)
     print(newstate)
     '''          
-def updateValues(values):
-    for key in values.keys():
-        values[key] += 0.01 
-    return values      
+# def updateValues(values, newSim):
+#     i = 0
+#     for key in values.keys():
+#         values[key] = -1 * newSim.sim.data.qfrc_bias[i]
+#         i += 1
+#     return values
+          
 
 main()   
