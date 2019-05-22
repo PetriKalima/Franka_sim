@@ -4,9 +4,12 @@ The code is loosely based on the 'robotic manipulation' -course's exercise 2: pi
 
 This demo should work with the parametrisation script, as all translations are calulated based on the urdf.
 The values the user might want to change are the:
- grasp_radius and depth_fix: the length from the handlecore to grasping location and the depth of the grasp
- n and m: the amount of points for handle opening and door opening paths
- handle_angle and door_angle: the angles the respective rotational joints are opened to
+ * grasp_radius: the length from the handle core to the grasping location
+ * depth_fix: the depth of the grasp
+ * n: the amount of points for handle opening path
+ * m: the amount of points for door opening path
+ * handle_angle: the angle the hinge rotational joint is turned
+ * door_angle: the angle the door rotational joint is turned
 */
 
 #include <functions.h>
@@ -70,9 +73,9 @@ int main(int argc, char **argv) {
 // Definitions of grasp locations
 
     // Radius of grasp location from handle core (in metres)
-    float grasp_radius = 0.1; // seems good enough
+    float grasp_radius = 0.1; // default 0.1
     // Depth fix translation for the ee to grab the handle
-    float depth_fix = 0.02; // the ee misses the handle, and 2cm puts the handle about directly in the middle of the fingers
+    float depth_fix = 0.02; // default 0.02. fixes the ee missing the handle
 
     // Creates a translation where the axis is reoriented for the robot to approach from
     Eigen::Affine3d rotx = Eigen::Translation3d(0,0,0) * Eigen::AngleAxisd(-M_PI_2, Eigen::Vector3d::UnitX());
@@ -88,28 +91,26 @@ int main(int argc, char **argv) {
 
 // Poses for opening the handle
     int n = 10; // number of points to move through
-    float handle_angle = 30; //rotation angle in degrees
+    float handle_angle = 30; //rotation angle in degrees, default 30
     Eigen::Affine3d translation; //initialise 
     Eigen::Affine3d point[n]; //initialise
     for (int i=1; i<=n; i++){ //for each point the robot will move through: calculate the pose
         float a = handle_angle/n*i * M_PI/180; //step angle in degrees, convert to rad
-        float dx = cos(a)*grasp_radius; //step in x axis
-        float dy = sin(a)*grasp_radius; //step in y axis
         //translation from angle core to grasp points which are circularly around the core
-        translation = Eigen::Translation3d( dx, dy, 0) * Eigen::AngleAxisd(a, Eigen::Vector3d::UnitZ()); 
+        translation = Eigen::AngleAxisd(a, Eigen::Vector3d::UnitZ()) * Eigen::Translation3d( grasp_radius, 0, 0); 
         point[i-1] = handle_core_fix * translation; //base_link to grasp point
         vis.publishAxis(point[i-1]); //visualise point
     }
 
 // Poses for opening the door
-    int m = 30; // number of points to move through
-    float door_angle = 90; // rotation angle in degrees
+    int m = 10; // number of points to move through
+    float door_angle = 20; // rotation angle in degrees, default 20
     Eigen::Affine3d points[m]; // initialise
     for (int j=1; j<=m; j++){ // for each point calculate the frame
         float a2 = door_angle/m*j * M_PI/180; //step angle in degrees, convert to rad
         // transformation from base_link to hinge * rotation around hinge * translation from hinge to handle * 
-        // rotation to robot orientation * translation from core to grasp point
-        points[j-1] = hinge * Eigen::AngleAxisd(-a2, Eigen::Vector3d::UnitZ()) * hinge_handle * rotx * translation;
+        // rotation to robot orientation * depth fix * translation from core to grasp point
+        points[j-1] = hinge * Eigen::AngleAxisd(-a2, Eigen::Vector3d::UnitZ()) * hinge_handle * rotx * Eigen::Translation3d(0, 0, depth_fix) * translation;
         vis.publishAxis(points[j-1]); // visualise point
     }
 
