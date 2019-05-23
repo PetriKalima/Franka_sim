@@ -1,5 +1,6 @@
 import mujoco_py
 import numpy as np
+from mujoco_py import functions
 
 
 class Simpackage:
@@ -39,7 +40,8 @@ class Simpackage:
                 newvalue = values[joint]
                 try:
                     newvalue = float(newvalue)
-                    self.sim.data.ctrl[self.joints.index(joint)] = newvalue
+                    self.sim.data.qpos[self.joints.index(joint)] = newvalue
+                    self.sim.data.qvel[self.joints.index(joint)] = 0
                 except ValueError:
                     print("given value must be numeric")    
             except KeyError:
@@ -48,6 +50,28 @@ class Simpackage:
         return self.getState()            
 
     def step(self):
+        rne = np.ndarray(self.sim.model.nv)
+        joint_idx = [self.sim.model.get_joint_qpos_addr(j) for j in self.joints]
+
+        # Compute forces required for gravity, Coriolis, etc compensation
+        # False indicates that we set the desired acceleration to zero,
+        # (ignore M*desired_acc); the results should be the same as
+        # if we directly read qfrc_bias
+        functions.mj_rne(self.sim.model, self.sim.data, False, rne)
+
+        # Set them as applied forces to each joint
+        # There are two ways of doing this:
+        # 1. By adding it to actuators (in this case, the actuators
+        # take the gravity force on themselves, so if there are any force limits
+        # imposed on the actuators, gravity compensation will also be limited
+        self.sim.data.ctrl[joint_idx] = rne[joint_idx]
+
+        # 2. By directly adding it as a compensation force -- it looks like
+        # a less realistic scenario, with the force kind of "magically" appearing
+        # out of nowhere (commented out so that we don't compensate twice)
+        #self.sim.data.qfrc_applied[joint_idx] = rne[joint_idx]
+
+        # Step, render, etc
         self.sim.step()
         self.view()
 
