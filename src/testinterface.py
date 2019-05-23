@@ -1,4 +1,5 @@
 from interface import Simpackage
+import numpy as np
 
 def main():
     newSim = Simpackage('../model/robots/samplefinal.xml')
@@ -13,17 +14,17 @@ def main():
     values = {"lumi_joint1": 0,
               "lumi_joint2": 0,
               "lumi_joint3": 0,
-              "lumi_joint4": 0,
+              "lumi_joint4": -0.1,
               "lumi_joint5": 0,
-              "lumi_joint6": 0,
+              "lumi_joint6": np.pi/2,
               "lumi_joint7": 0,
-              "lumi_finger_joint1": 0,
-              "lumi_finger_joint2": 0,
+              "lumi_finger_joint1": 0.01,
+              "lumi_finger_joint2": 0.01,
               "door_hinge": 0,
               "handle_core": 0 
               }
               
-    # newstate = newSim.setState(values)
+    newstate = newSim.setState(values)
     while True:
         #values = updateValues(values, newSim)
         # newstate = newSim.setState(values)
