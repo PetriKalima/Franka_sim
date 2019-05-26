@@ -19,15 +19,14 @@ class Point:
         self.z = z
 
     def scaled_str(self, scale):
-        '''Multiply by 1000 because of units'''
         return '{:.3f} {:.3f} {:.3f}'.format(
-            self.x * scale * 1000,
-            self.y * scale * 1000,
-            self.z * scale * 1000)
+            self.x * scale,
+            self.y * scale,
+            self.z * scale)
 
 # Use the defaults for calculating positions with new scales
 DEFAULTS = {
-    'scale'             : 0.001,
+    'scale'             : 1,
     'mass'              : 100,
     'stiffness'         : 0.001,
     'joint_door_base'   : Point(0.4, 0.25, 0.052),
@@ -120,7 +119,7 @@ def create_argparse():
     modify_parser.add_argument(
         '--scale',
         help='Set the scale of the door.',
-        default=0.001,
+        default=1,
         type=float
     )
 
@@ -246,10 +245,13 @@ def set_scales(value, xml_src, xacro_src, xml_dest, xacro_dest):
             part['inertial']['@pos'] = DEFAULTS['pos_frame_inertia'].scaled_str(value)
 
     for part in xacro['robot']['link']:
-        if part['@name'] in ['base_link', 'door_base']:
+        try:
+            if part['@name'] in ['base_link', 'door_base', 'door_link']:
+                continue
+            part['visual']['geometry']['mesh']['@scale'] = scale_str
+            part['collision']['geometry']['mesh']['@scale'] = scale_str
+        except KeyError:
             continue
-        part['visual']['geometry']['mesh']['@scale'] = scale_str
-        part['collision']['geometry']['mesh']['@scale'] = scale_str
     
     for part in xacro['robot']['joint']:
         if part['@name'] == 'door_hinge':
