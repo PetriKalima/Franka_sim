@@ -47,9 +47,9 @@ class Simpackage:
             except KeyError:
                 print(joint, " was not found")
         
-        return self.getState()            
+        return self.getState()         
 
-    def step(self):
+    def step(self, action):
         rne = np.ndarray(self.sim.model.nv)
         joint_idx = [self.sim.model.get_joint_qpos_addr(j) for j in self.joints]
 
@@ -64,7 +64,7 @@ class Simpackage:
         # 1. By adding it to actuators (in this case, the actuators
         # take the gravity force on themselves, so if there are any force limits
         # imposed on the actuators, gravity compensation will also be limited
-        self.sim.data.ctrl[joint_idx] = rne[joint_idx]
+        self.sim.data.ctrl[joint_idx] = rne[joint_idx] + action
 
         # 2. By directly adding it as a compensation force -- it looks like
         # a less realistic scenario, with the force kind of "magically" appearing

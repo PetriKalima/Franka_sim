@@ -23,15 +23,15 @@ def main():
               "door_hinge": 0,
               "handle_core": 0 
               }
-              
+
     newstate = newSim.setState(values)
-    while True:
-        #values = updateValues(values, newSim)
-        # newstate = newSim.setState(values)
-        # print(newstate)
-        newSim.step()
-        print(newSim.sim.data.qfrc_applied)
-        print(newSim.sim.data.ncon)
+    for _ in range(10):
+        new_state = [v + np.random.uniform(-1, 1) for k, v in values.items()]
+        for _ in range(300):
+            # values = updateValues(values, newSim)
+            # newstate = newSim.setState(values)
+            # print(newstate)
+            newSim.step(new_state)
     '''
     values = {"lumi_joint1": 0.4,
               "lumi_joint2": None,
@@ -48,12 +48,12 @@ def main():
     newstate = newSim.setState(values)
     print(newstate)
     '''          
-# def updateValues(values, newSim):
-#     i = 0
-#     for key in values.keys():
-#         values[key] = -1 * newSim.sim.data.qfrc_bias[i]
-#         i += 1
-#     return values
+def updateValues(values, newSim):
+    i = 0
+    for key in values.keys():
+        values[key] = -1 * newSim.sim.data.qfrc_bias[i]
+        i += 1
+    return values
           
 
 main()   
