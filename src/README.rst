@@ -7,8 +7,8 @@ Usage
 
 Import ``interface.py`` as a python module.
 
-The ``siminterface`` class takes a path to an xml model as an argument.
-There are four functions that can be used to control the simualation:
+The ``Simpackage`` class takes a path to an xml model as an argument. 
+It can then be used to control the robot model using four functions:
 
 1. getState()
     Returns a numpy array with the positions and velocities of the joints.
