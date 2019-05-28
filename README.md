@@ -9,6 +9,8 @@ Features:
 * A demo for validation of the environment.
 
 Instructions:
+* Requires the mujoco_ros_control and lumi_testbed repositories
+
 * To open the door simulation use command:
     * roslaunch franka_sim door.launch
 

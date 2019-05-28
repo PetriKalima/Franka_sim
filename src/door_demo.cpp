@@ -2,6 +2,13 @@
 The door_demo demonstrates a proof of concept operation task of the door model
 The code is loosely based on the 'robotic manipulation' -course's exercise 2: pick_and_place.cpp
 
+The demo plans to a pregrasp pose 10 cm from the handle, 
+opens the gripper, 
+cartesian plans to the handle, 
+closes the gripper, 
+cartesian plans through n poses to turn the handle,
+cartesian plans through m poses to push the door. 
+
 This demo should work with the parametrisation script, as all translations are calulated based on the urdf.
 The values the user might want to change are the:
  * grasp_radius: the length from the handle core to the grasping location

@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
+<!--The launch file to start the door simulation environment-->
 
 <launch>
-    <!--The models used by rviz and mujoco are separate, to make use of the additional functionality of xml in mujoco-->
+    <!--The models used by RViz and MuJoCo are separate, to make use of the additional functionality of xml in mujoco-->
     <arg name="urdf_door" default="$(find franka_sim)/model/robots/robot_door.urdf"/>
     <arg name="xml_door" default="$(find franka_sim)/model/robots/samplefinal.xml"/>
 
+    <!--Use the simulation launch file to open Mujoco and RViz-->
     <include file="$(find franka_sim)/launch/simulation.launch">
-        <!--Use the xml for mujoco-->
+        <!--Use the XML for MuJoCo-->
         <arg name="mujoco_model" default="$(arg xml_door)"/>
-        <!--Use urdf for rviz-->
+        <!--Use URDF for RViz-->
         <arg name="rviz_model" default="$(arg urdf_door)"/>
         <!--The coordinates the camera looks at-->
         <arg name="look_at_x" default="0.1"/>

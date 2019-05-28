@@ -7,8 +7,8 @@ Created on: 11/13/18
 -->
 
 <!--
-    Modified to allow separate use of xml and urdf files for mujoco and rviz.
-    Also allows creation of urdf files in runtime.
+    Modified to allow separate use of xml and urdf files for MuJoCo and RViz.
+    Also allows creation of URDF files in runtime.
 -->
 
 <launch>
@@ -20,17 +20,17 @@ Created on: 11/13/18
     <arg name="rviz" default="true"/>
 
     <arg name="model" default="$(find lumi_description)/robots/robot.urdf"/>
-    <!--The mujoco and rviz models are separated into mujoco_model and rviz_model-->
+    <!--The MuJoCo and RViz models are separated into mujoco_model and rviz_model-->
     <!--The door.launch gives different files for these args-->
     <arg name="mujoco_model" default="$(arg model)"/>
     <arg name="rviz_model" default="$(arg model)"/>
-    <!--Compensate bias forces in mujoco; If true the effort visible to ROS will not contains gravity/corollios/etc. forces -->
+    <!--Compensate bias forces in MuJoCo; If true the effort visible to ROS will not contains gravity/corollios/etc. forces -->
     <arg name="compensate_bias" default="false"/>
     <arg name="bias_error" default="1.0"/>
 
     <!--Uses the robot_door.urdf file created at compile time from robot_door.urdf.xacro-->
     <param name="robot_description" textfile="$(arg rviz_model)"/>
-    <!--Optional, creates the required urdf file at runtime, but might slow down roslaunch-->
+    <!--Optional, creates the required URDF file at runtime, but might slow down roslaunch-->
     <!--Disable to increase runtime performance-->
     <param name="robot_description"
            command="$(find xacro)/xacro '$(find franka_sim)/model/robots/robot_door.urdf.xacro' --inorder"/>
@@ -45,7 +45,7 @@ Created on: 11/13/18
     </group>
 
     <node name="lumi_mujoco" type="mujoco_control" pkg="mujoco_ros_control" output="screen">
-        <!--Uses the samplefinal.xml for mujoco-->
+        <!--Uses the samplefinal.xml for MuJoCo-->
         <param name="model" value="$(arg mujoco_model)"/>
         <remap from="/lumi_mujoco/trajectory_controller/follow_joint_trajectory"
                to="/lumi_arm_controller/follow_joint_trajectory"/>
