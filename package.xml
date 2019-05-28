@@ -2,8 +2,10 @@
 <package format="2">
   <name>franka_sim</name>
   <version>1.0.0</version>
-  <description>The franka_sim package, 
-  where the door and franka panda are simulated</description>
+  <description>The franka_sim package. 
+  Includes a simulation environment for a door and a Franka Panda robot,
+  Python code for door parameterization,
+  and a Python interface for RL.</description>
 
   <maintainer email="orgilbold.zardikan@aalto.fi">zardiko1</maintainer>
   <license>BSD</license>
